@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import Logo from '../../static/logo.png';
 import {AiOutlineClose, AiOutlineMenu} from 'react-icons/ai';
-import './Navbar.css';
 import {Menu} from "./Menu";
+import {Link} from "react-router-dom";
+import './Navbar.css';
 
 const Navbar = () => {
     const itemsMenu = new Menu()
@@ -12,10 +13,10 @@ const Navbar = () => {
             <div className="container">
                 <div className="box">
                     <div className="logo">
-                        <a href="/">
+                        <Link to="/">
                             <img src={Logo} alt='/'/>
                             <span className="logo_text">Mitch</span>
-                        </a>
+                        </Link>
                     </div>
                     <ul
                         className={
@@ -23,8 +24,8 @@ const Navbar = () => {
                         }
                     >
                         {itemsMenu.menu.map(item =>
-                            <li>
-                                <a href={item.href}>{item.title}</a>
+                            <li key={item.title}>
+                                <Link onClick={() => setNav(!nav)} to={item.href}>{item.title}</Link>
                             </li>
                         )}
                     </ul>
