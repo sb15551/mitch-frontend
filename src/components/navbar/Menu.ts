@@ -9,7 +9,8 @@ export class Menu {
             new Item("Главная", LinkEnum.MAIN),
             new Item("Турниры", LinkEnum.TOURNAMENTS),
             new Item("Моя статистика", LinkEnum.STAT),
-            new Item("Настройки", LinkEnum.SETTINGS)];
+            new Item("Настройки", LinkEnum.SETTINGS),
+            new Item("Админка", LinkEnum.ADMIN)];
     }
 
     get menu(): Array<Item> {

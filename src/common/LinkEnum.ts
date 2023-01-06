@@ -3,5 +3,6 @@ export enum LinkEnum {
     TOURNAMENTS = "/tournaments",
     STAT = "/stat",
     SETTINGS = "/settings",
-    LOGIN = "/login"
+    LOGIN = "/login",
+    ADMIN = "/admin"
 }

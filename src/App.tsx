@@ -6,7 +6,9 @@ import Tournaments from "./pages/Tournaments";
 import Stat from "./pages/Stat";
 import Settings from "./pages/Settings";
 import {AuthPage} from "./pages/auth-page";
-import ProtectedRoutes from "./ProtectedRoutes";
+import ProtectedRoutes from "./components/routes/ProtectedRoutes";
+import Admin from "./pages/Admin";
+import AdminRoutes from "./components/routes/AdminRoutes";
 import "./App.css";
 
 const App = () => {
@@ -19,6 +21,9 @@ const App = () => {
                     <Route path={LinkEnum.TOURNAMENTS} element={<Tournaments/>}/>
                     <Route path={LinkEnum.STAT} element={<Stat/>}/>
                     <Route path={LinkEnum.SETTINGS} element={<Settings/>}/>
+                    <Route element={<AdminRoutes />}>
+                        <Route path={LinkEnum.ADMIN} element={<Admin/>}/>
+                    </Route>
                 </Route>
             </Routes>
         </div>

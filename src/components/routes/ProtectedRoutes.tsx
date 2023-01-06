@@ -1,7 +1,7 @@
 import {useLocation} from "react-router";
 import {Navigate, Outlet} from "react-router-dom";
-import {useAuth} from "./hooks/use-auth";
-import {LinkEnum} from "./common/LinkEnum";
+import {useAuth} from "../../hooks/use-auth";
+import {LinkEnum} from "../../common/LinkEnum";
 
 const ProtectedRoutes = () => {
     const {isAuth} = useAuth();
