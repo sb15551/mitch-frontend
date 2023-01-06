@@ -3,19 +3,25 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Controller, SubmitHandler, useForm, useFormState} from "react-hook-form";
-import './auth-form.css';
 import {loginValidation, passwordValidation} from './validation';
 import Logo from "../../static/logo.png";
 import {createTheme, IconButton, InputAdornment, ThemeProvider} from "@mui/material";
 import PasswordIcon from '@mui/icons-material/Password';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {OrderApi} from "../../common/OrderApi";
+import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import {setUser} from "../../store/slices/userSlice";
+import {LinkEnum} from "../../common/LinkEnum";
+import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
+import {AuthResponse} from "../../common/TypeObject";
+import './auth-form.css';
 
-interface ISignInForm {
+export interface ISignInForm {
     login: string;
     password: string;
 }
-
 
 declare module '@mui/material/styles' {
     interface Palette {
@@ -34,12 +40,29 @@ declare module '@mui/material/Button' {
 }
 
 export const AuthForm: React.FC = () => {
-    const { handleSubmit, control } = useForm<ISignInForm>();
-    const { errors } = useFormState({ 
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const {handleSubmit, control} = useForm<ISignInForm>();
+    const {errors} = useFormState({
         control
     })
 
-    const onSubmit: SubmitHandler<ISignInForm> = data => console.log(data);
+    const isAuthResponse = (v: any): v is AuthResponse => v.login !== undefined;
+
+    const onSubmit: SubmitHandler<ISignInForm> = async data => {
+        const authData = await OrderApi.autenticate(data);
+        if (isAuthResponse(authData)) {
+            dispatch(setUser({
+                login: authData.login,
+                id: authData.id,
+                token: authData.token,
+            }));
+            localStorage.setItem(LocalStorageKeyEnum.USER, JSON.stringify(authData));
+            navigate(LinkEnum.MAIN);
+        } else {
+            alert(authData);
+        }
+    };
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -68,12 +91,12 @@ export const AuthForm: React.FC = () => {
                     control={control}
                     name="login"
                     rules={loginValidation}
-                    render={({ field }) => (
+                    render={({field}) => (
                         <TextField
                             label="Telegram ID"
                             onChange={(e) => field.onChange(e)}
                             value={field.value}
-                            fullWidth={ true }
+                            fullWidth={true}
                             size="small"
                             InputProps={{
                                 startAdornment: (
@@ -88,7 +111,7 @@ export const AuthForm: React.FC = () => {
                             variant="standard"
                             className="auth-form__input"
                             error={!!errors.login?.message}
-                            helperText={ errors?.login?.message }
+                            helperText={errors?.login?.message}
                         />
                     )}
                 />
@@ -96,12 +119,12 @@ export const AuthForm: React.FC = () => {
                     control={control}
                     name="password"
                     rules={passwordValidation}
-                    render={({ field }) => (
+                    render={({field}) => (
                         <TextField
                             label="Password"
                             onChange={(e) => field.onChange(e)}
                             value={field.value}
-                            fullWidth={ true }
+                            fullWidth={true}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -118,7 +141,7 @@ export const AuthForm: React.FC = () => {
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
                                         </IconButton>
                                     </InputAdornment>
                                 )
@@ -128,8 +151,8 @@ export const AuthForm: React.FC = () => {
                             margin="normal"
                             variant="standard"
                             className="auth-form__input"
-                            error={ !!errors?.password?.message }
-                            helperText={ errors?.password?.message }
+                            error={!!errors?.password?.message}
+                            helperText={errors?.password?.message}
                         />
                     )}
                 />
@@ -138,8 +161,8 @@ export const AuthForm: React.FC = () => {
                         color="neutral"
                         type="submit"
                         variant="contained"
-                        fullWidth={ true }
-                        disableElevation={ true }
+                        fullWidth={true}
+                        disableElevation={true}
                         sx={{
                             marginTop: 2
                         }}
@@ -154,7 +177,7 @@ export const AuthForm: React.FC = () => {
                     Нет аккаунта? {" "}
                 </Typography>
                 <Typography variant="subtitle1" component="span">
-                    <a href="https://t.me/pkrMitchBot" target="_blank">
+                    <a href="https://t.me/pkrMitchBot" target="_blank" rel="noreferrer">
                         Мич
                     </a> тебе поможет!
                 </Typography>

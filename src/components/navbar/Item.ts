@@ -1,4 +1,4 @@
-export class ItemMenu {
+export class Item {
     private _title: string;
     private _href: string;
 

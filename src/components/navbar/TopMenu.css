@@ -39,7 +39,17 @@
     display: none;
 }
 
-@media (max-width: 850px) {
+.activeTab {
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) and (min-width: 720px) {
+    .logo_text {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
     .mobile_btn {
         display: block;
         position: absolute;

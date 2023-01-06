@@ -1,22 +1,22 @@
-import {ItemMenu} from "./ItemMenu";
+import {Item} from "./Item";
 import {LinkEnum} from "../../common/LinkEnum";
 
 export class Menu {
-    private _menu: Array<ItemMenu>;
+    private _menu: Array<Item>;
 
     constructor() {
         this._menu = [
-            new ItemMenu("Главная", LinkEnum.MAIN),
-            new ItemMenu("Турниры", LinkEnum.TOURNAMENTS),
-            new ItemMenu("Моя статистика", LinkEnum.STAT),
-            new ItemMenu("Настройки", LinkEnum.SETTINGS)];
+            new Item("Главная", LinkEnum.MAIN),
+            new Item("Турниры", LinkEnum.TOURNAMENTS),
+            new Item("Моя статистика", LinkEnum.STAT),
+            new Item("Настройки", LinkEnum.SETTINGS)];
     }
 
-    get menu(): Array<ItemMenu> {
+    get menu(): Array<Item> {
         return this._menu;
     }
 
-    set menu(value: Array<ItemMenu>) {
+    set menu(value: Array<Item>) {
         this._menu = value;
     }
 }

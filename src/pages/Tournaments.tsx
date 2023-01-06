@@ -1,8 +1,14 @@
+import TopMenu from "../components/navbar/TopMenu";
+import React from "react";
+
 const Tournaments = () => {
     return (
-        <div className="content">
-            <h1>Tournaments page</h1>
-        </div>
+        <>
+            <TopMenu/>
+            <div className="content">
+                <h1>Tournaments page</h1>
+            </div>
+        </>
     );
 }
 
