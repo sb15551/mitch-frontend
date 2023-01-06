@@ -21,4 +21,5 @@ export const handleLogError = (error: any) => {
     } else {
         console.log(error.message);
     }
+    alert(error.message +  "\nSomething went wrong, try again later");
 }

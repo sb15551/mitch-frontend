@@ -21,12 +21,9 @@ export const OrderApi = {
             })
             .catch(error => {
                 handleLogError(error);
-                var message: string;
+                var message: string = "";
                 if (error.response.status === 401 || error.response.status === 403) {
                     message = "Invalid login or password";
-                    console.log(message);
-                } else {
-                    message = "Something went wrong, try again later";
                     console.log(message);
                 }
                 return message;
