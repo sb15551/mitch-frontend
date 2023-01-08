@@ -2,7 +2,10 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: "Tahoma";
+}
+
+.App {
+    font-family: "Tahoma", serif;
 }
 
 ul,
@@ -16,6 +19,12 @@ a {
 }
 
 .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.App {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;

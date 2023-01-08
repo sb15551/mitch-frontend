@@ -59,8 +59,6 @@ export const AuthForm: React.FC = () => {
             }));
             localStorage.setItem(LocalStorageKeyEnum.USER, JSON.stringify(authData));
             navigate(LinkEnum.MAIN);
-        } else {
-            alert(authData);
         }
     };
     const [showPassword, setShowPassword] = React.useState(false);

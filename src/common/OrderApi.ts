@@ -2,7 +2,7 @@ import axios from "axios";
 import {Config} from "./Config";
 import {ISignInForm} from "../components/auth-form";
 import {ApiEnum} from "./ApiEnum";
-import {AuthResponse} from "./TypeObject";
+import {AuthResponse, PlayersResponseDto} from "./TypeObject";
 import {handleLogError} from "./Helpers";
 
 const instance = axios.create({
@@ -17,16 +17,19 @@ export const OrderApi = {
         return await instance.post<AuthResponse>(ApiEnum.AUTH, {login: data.login, password: data.password})
             .then((response) => {
                 if (response.status === 200) return response.data;
-                return null;
+                return response.data;
             })
             .catch(error => {
-                handleLogError(error);
-                var message: string = "";
-                if (error.response.status === 401 || error.response.status === 403) {
-                    message = "Invalid login or password";
-                    console.log(message);
-                }
-                return message;
+                return handleLogError(error);
+            });
+    },
+
+    getPlayers(token: string, page: number, size: number) {
+        return instance.get<PlayersResponseDto>(
+            ApiEnum.GET_PLAYERS,
+            {
+                headers: {"Authorization": "Bearer " + token},
+                params: {page: page, size: size}
             });
     }
 }
