@@ -16,7 +16,7 @@ export const TabPanel: React.FC<TabPanelProps> = ({children, index, value, ...ot
             {...other}
         >
             {value === index && (
-                <Box sx={{p: 2}}>{children}</Box>
+                <Box>{children}</Box>
             )}
         </div>
     );

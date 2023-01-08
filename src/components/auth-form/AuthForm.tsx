@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -15,7 +15,8 @@ import {useAppDispatch} from "../../hooks/redux-hooks";
 import {setUser} from "../../store/slices/userSlice";
 import {LinkEnum} from "../../common/LinkEnum";
 import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
-import {AuthResponse} from "../../common/TypeObject";
+import {handleLogError} from "../../common/Helpers";
+import {ModalError} from "../error/ModalError";
 import './auth-form.css';
 
 export interface ISignInForm {
@@ -46,20 +47,26 @@ export const AuthForm: React.FC = () => {
     const {errors} = useFormState({
         control
     })
+    const [open, setOpen] = useState(false);
+    const [objectError, setObjectError] = useState(Object);
 
-    const isAuthResponse = (v: any): v is AuthResponse => v.login !== undefined;
-
-    const onSubmit: SubmitHandler<ISignInForm> = async data => {
-        const authData = await OrderApi.autenticate(data);
-        if (isAuthResponse(authData)) {
-            dispatch(setUser({
-                login: authData.login,
-                id: authData.id,
-                token: authData.token,
-            }));
-            localStorage.setItem(LocalStorageKeyEnum.USER, JSON.stringify(authData));
-            navigate(LinkEnum.MAIN);
-        }
+    const onSubmit: SubmitHandler<ISignInForm> = data => {
+        OrderApi.autenticate(data)
+            .then((response) => {
+                if (response.status === 200) {
+                    dispatch(setUser({
+                        login: response.data.login,
+                        id: response.data.id,
+                        token: response.data.token,
+                    }));
+                    localStorage.setItem(LocalStorageKeyEnum.USER, JSON.stringify(response.data));
+                    navigate(LinkEnum.MAIN);
+                }
+            })
+            .catch(error => {
+                setObjectError(handleLogError(error));
+                setOpen(true);
+            });
     };
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -179,6 +186,10 @@ export const AuthForm: React.FC = () => {
                         Мич
                     </a> тебе поможет!
                 </Typography>
+            </div>
+
+            <div onClick={() => setOpen(false)}>
+                <ModalError openModal={open} objectError={objectError}/>
             </div>
         </div>
     )

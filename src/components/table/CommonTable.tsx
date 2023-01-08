@@ -1,9 +1,10 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
-import {ChangeEvent, FC, useEffect, useState} from "react";
+import React, {ChangeEvent, FC, useEffect, useState} from "react";
 import {RowsPerPageEnum} from "../../common/RowsPerPageEnum";
 import {handleLogError} from "../../common/Helpers";
 import {useAuth} from "../../hooks/use-auth";
 import {AxiosResponse} from "axios";
+import {ModalError} from "../error/ModalError";
 
 interface CommonTableProps {
     headers: Array<any>;
@@ -18,6 +19,9 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction}) =
     const [rows, setRows] = useState(Array<any>);
     const [total, setTotal] = useState(0);
 
+    const [open, setOpen] = useState(false);
+    const [objectError, setObjectError] = useState(Object);
+
     useEffect(() => {
         orderApiFunction(token as string, page, rowsPerPage)
             .then(response => {
@@ -27,7 +31,8 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction}) =
                 }
             })
             .catch(error => {
-                handleLogError(error);
+                setObjectError(handleLogError(error));
+                setOpen(true);
             })
     }, [page, rowsPerPage]);
 
@@ -80,6 +85,10 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction}) =
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+
+            <div onClick={() => setOpen(false)}>
+                <ModalError openModal={open} objectError={objectError}/>
+            </div>
         </Paper>
     );
 }

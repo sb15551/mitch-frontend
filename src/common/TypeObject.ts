@@ -26,3 +26,8 @@ export interface ColumnsSetting {
     align: 'inherit' | 'left' | 'center' | 'right' | 'justify';
     minWidth: number;
 }
+
+export type ModalMessageError = {
+    titleError: string;
+    messageError: string;
+}

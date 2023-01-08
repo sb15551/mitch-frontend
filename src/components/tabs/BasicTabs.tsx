@@ -1,7 +1,7 @@
 import {SyntheticEvent, useState} from "react";
 import {Box, Tab, Tabs} from "@mui/material";
 import {TabPanel} from "./TabPanel";
-import {PlayersTab} from "../player/admin/PlayersTab";
+import {PlayersTable} from "../player/admin/PlayersTable";
 import "./BasicTabs.css"
 
 function a11yProps(index: number) {
@@ -34,7 +34,7 @@ export const BasicTabs = () => {
                 Item One
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <PlayersTab/>
+                <PlayersTable/>
             </TabPanel>
         </Box>
     );

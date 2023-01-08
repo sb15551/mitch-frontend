@@ -1,4 +1,5 @@
 import {Base64} from "js-base64";
+import {ModalMessageError} from "./TypeObject";
 
 interface MyToken {
     sub: string;
@@ -17,16 +18,17 @@ export const handleLogError = (error: any) => {
     var message: string = "";
     if (error.response) {
         if (error.response.status === 401 || error.response.status === 403) {
-            message = "\nInvalid login or password";
+            message = "\nНеправильный логин или пароль";
             console.log(error.response.data);
         }
     } else if (error.request) {
-        message = "\nSomething went wrong, try again later";
+        message = "\nЧто-то пошло не так, повтори попытку позже";
         console.log(error.request);
     } else {
         console.log(error.message);
-        message = "\nSomething went wrong, try again later";
+        message = "\nЧто-то пошло не так, повтори попытку позже";
     }
-    alert(error.message + message);
-    return error.message;
+    // alert(error.message + message);
+    var objectError: ModalMessageError = {titleError: error.message, messageError: message};
+    return objectError;
 }
