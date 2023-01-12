@@ -2,7 +2,7 @@ import axios from "axios";
 import {Config} from "./Config";
 import {ISignInForm} from "../components/auth-form";
 import {ApiEnum} from "./ApiEnum";
-import {AuthResponse, PlayersResponseDto} from "./TypeObject";
+import {AuthResponse, PlayerDto, PlayersResponseDto} from "./TypeObject";
 
 const instance = axios.create({
     baseURL: Config.url.API_BASE_URL,
@@ -13,7 +13,9 @@ const instance = axios.create({
 
 export const OrderApi = {
     autenticate(data: ISignInForm) {
-        return instance.post<AuthResponse>(ApiEnum.AUTH, {login: data.login, password: data.password});
+        return instance.post<AuthResponse>(
+            ApiEnum.AUTH,
+            {login: data.login, password: data.password});
     },
 
     getPlayers(token: string, page: number, size: number) {
@@ -22,6 +24,23 @@ export const OrderApi = {
             {
                 headers: {"Authorization": "Bearer " + token},
                 params: {page: page, size: size}
+            });
+    },
+
+    getPlayer(token: string, playerId: number) {
+        return instance.get<PlayerDto>(
+            ApiEnum.GET_PLAYER + "/" + playerId,
+            {
+                headers: {"Authorization": "Bearer " + token},
+            });
+    },
+
+    savePlayer(token: string, player: any) {
+        return instance.post(
+            ApiEnum.GET_PLAYER,
+            player,
+            {
+                headers: {"Authorization": "Bearer " + token},
             });
     }
 }

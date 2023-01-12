@@ -6,7 +6,7 @@ const Settings = () => {
         <>
             <TopMenu/>
             <div className="content">
-                <h1>Tournaments page</h1>
+                <h1>Settings page</h1>
             </div>
         </>
     );

@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 
 const initialState = {
     login: null,
@@ -12,6 +13,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action) {
+            localStorage.setItem(LocalStorageKeyEnum.USER, JSON.stringify(action.payload));
             state.login = action.payload.login;
             state.token = action.payload.token;
             state.id = action.payload.id;

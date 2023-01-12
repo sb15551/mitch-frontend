@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import {Controller, SubmitHandler, useForm, useFormState} from "react-hook-form";
 import {loginValidation, passwordValidation} from './validation';
 import Logo from "../../static/logo.png";
-import {createTheme, IconButton, InputAdornment, ThemeProvider} from "@mui/material";
+import {IconButton, InputAdornment} from "@mui/material";
 import PasswordIcon from '@mui/icons-material/Password';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
@@ -14,30 +14,13 @@ import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../hooks/redux-hooks";
 import {setUser} from "../../store/slices/userSlice";
 import {LinkEnum} from "../../common/LinkEnum";
-import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 import {handleLogError} from "../../common/Helpers";
-import {ModalError} from "../error/ModalError";
+import {ModalError} from "../modal/ModalError";
 import './auth-form.css';
 
 export interface ISignInForm {
     login: string;
     password: string;
-}
-
-declare module '@mui/material/styles' {
-    interface Palette {
-        neutral: Palette['primary'];
-    }
-
-    interface PaletteOptions {
-        neutral?: PaletteOptions['primary'];
-    }
-}
-
-declare module '@mui/material/Button' {
-    interface ButtonPropsColorOverrides {
-        neutral: true;
-    }
 }
 
 export const AuthForm: React.FC = () => {
@@ -59,7 +42,6 @@ export const AuthForm: React.FC = () => {
                         id: response.data.id,
                         token: response.data.token,
                     }));
-                    localStorage.setItem(LocalStorageKeyEnum.USER, JSON.stringify(response.data));
                     navigate(LinkEnum.MAIN);
                 }
             })
@@ -75,15 +57,6 @@ export const AuthForm: React.FC = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
-
-    const theme = createTheme({
-        palette: {
-            neutral: {
-                main: '#000',
-                contrastText: '#fff',
-            },
-        },
-    });
 
     return (
         <div className="auth-form">
@@ -161,20 +134,18 @@ export const AuthForm: React.FC = () => {
                         />
                     )}
                 />
-                <ThemeProvider theme={theme}>
-                    <Button
-                        color="neutral"
-                        type="submit"
-                        variant="contained"
-                        fullWidth={true}
-                        disableElevation={true}
-                        sx={{
-                            marginTop: 2
-                        }}
-                    >
-                        Войти
-                    </Button>
-                </ThemeProvider>
+                <Button
+                    color="neutral"
+                    type="submit"
+                    variant="contained"
+                    fullWidth={true}
+                    disableElevation={true}
+                    sx={{
+                        marginTop: 2
+                    }}
+                >
+                    Войти
+                </Button>
             </form>
 
             <div className="auth-form__footer">

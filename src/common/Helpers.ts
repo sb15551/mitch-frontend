@@ -28,7 +28,6 @@ export const handleLogError = (error: any) => {
         console.log(error.message);
         message = "\nЧто-то пошло не так, повтори попытку позже";
     }
-    // alert(error.message + message);
     var objectError: ModalMessageError = {titleError: error.message, messageError: message};
     return objectError;
 }

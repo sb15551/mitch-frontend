@@ -12,9 +12,31 @@ import AdminRoutes from "./components/routes/AdminRoutes";
 import {createTheme, ThemeProvider} from "@mui/material";
 import "./App.css";
 
+declare module '@mui/material/styles' {
+    interface Palette {
+        neutral: Palette['primary'];
+    }
+
+    interface PaletteOptions {
+        neutral?: PaletteOptions['primary'];
+    }
+}
+
+declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+        neutral: true;
+    }
+}
+
 const theme = createTheme({
     typography: {
         fontFamily: "Tahoma"
+    },
+    palette: {
+        neutral: {
+            main: '#000',
+            contrastText: '#fff',
+        },
     },
 });
 

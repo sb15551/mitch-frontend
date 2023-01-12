@@ -2,7 +2,7 @@ import {useAppSelector} from './redux-hooks';
 import {LocalStorageKeyEnum} from "../common/LocalStorageKeyEnum";
 import {AuthResponse} from "../common/TypeObject";
 import {parseJwtPayload} from "../common/Helpers";
-import {RoleEnum} from "../common/RoleEnum";
+import {RoleCodeEnum} from "../common/RoleCodeEnum";
 
 export function useAuth() {
     const {login, token, id, userRole} = useAppSelector(state => state.user);
@@ -24,7 +24,7 @@ export function useAuth() {
         var exp: number = payload.exp;
         var role: string = payload.role[0];
 
-        var adminRoles: Array<string> = [RoleEnum.ROOT, RoleEnum.ADMIN];
+        var adminRoles: Array<string> = [RoleCodeEnum.ROOT, RoleCodeEnum.ADMIN];
         return {
             isAuth: !!currentUser && nowDate <= exp,
             isAdminRole: adminRoles.includes(role),

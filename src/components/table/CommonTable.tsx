@@ -4,14 +4,15 @@ import {RowsPerPageEnum} from "../../common/RowsPerPageEnum";
 import {handleLogError} from "../../common/Helpers";
 import {useAuth} from "../../hooks/use-auth";
 import {AxiosResponse} from "axios";
-import {ModalError} from "../error/ModalError";
+import {ModalError} from "../modal/ModalError";
 
 interface CommonTableProps {
     headers: Array<any>;
     orderApiFunction: (token: string, page: number, rowsPerPage: number) => Promise<AxiosResponse>;
+    handleOpenModal: (playerId: number) => void;
 }
 
-export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction}) => {
+export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, handleOpenModal}) => {
     const {token} = useAuth();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(RowsPerPageEnum.TEN);
@@ -50,7 +51,13 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction}) =
             <TableContainer sx={{maxHeight: 620}}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{
+                            "& th": {
+                                color: "black",
+                                fontWeight: 700,
+                                backgroundColor: "#bcbcbc"
+                            }
+                        }}>
                             {headers.map(item =>
                                 <TableCell
                                     key={item.id}
@@ -65,10 +72,10 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction}) =
                             .map(row => {
                                 return (
                                     <TableRow style={{cursor: "pointer"}} hover role="checkbox" tabIndex={-1}
-                                              onClick={() => alert(row.id)}
+                                              onClick={() => handleOpenModal(row.id)}
                                               key={row.id}>
                                         {headers.map(item =>
-                                            <TableCell key={item.id}>{row[item.id]}</TableCell>
+                                            <TableCell key={item.id}>{item.id === "role" ? row[item.id].name : row[item.id]}</TableCell>
                                         )}
                                     </TableRow>
                                 );
