@@ -1,26 +1,25 @@
-import {OrderApi} from "../../../common/OrderApi";
-import {CommonTable} from "../../table/CommonTable";
-import {playerHeadersTable} from "./PlayerHeadersTable";
+import {OrderApi} from "../../common/OrderApi";
+import {CommonTable} from "../table/CommonTable";
 import React, {useState} from "react";
-import {EditPlayerModal} from "../../modal/EditPlayerModal";
-import {handleLogError} from "../../../common/Helpers";
-import {defaultPlayer} from "../../../common/TypeObject";
-import {useAuth} from "../../../hooks/use-auth";
-import {ModalError} from "../../modal/ModalError";
+import {locationHeadersTable} from "./LocationHeadersTable";
+import {handleLogError} from "../../common/Helpers";
+import {useAuth} from "../../hooks/use-auth";
+import {LocationDto} from "../../common/TypeObject";
+import {ModalError} from "../modal/ModalError";
+import {EditLocationModal} from "../modal/EditLocationModal";
 import {Button} from "@mui/material";
 
-export const PlayersTable = () => {
+export const LocationTable = () => {
     const {token} = useAuth();
     const [open, setOpen] = useState(false);
-    const [player, setPlayer] = useState(defaultPlayer);
+    const [location, setLocation] = useState({} as LocationDto);
     const [openError, setOpenError] = useState(false);
     const [objectError, setObjectError] = useState(Object);
     const [resetTable, setResetTable] = useState(0);
-
-    const handleClickOpen = (playerId: number) => {
-        OrderApi.getPlayer(token as string, playerId)
+    const handleClickOpen = (locationId: number) => {
+        OrderApi.getLocation(token as string, locationId)
             .then(response => {
-                setPlayer(response.data);
+                setLocation(response.data);
                 setOpen(true);
             })
             .catch(error => {
@@ -31,7 +30,7 @@ export const PlayersTable = () => {
 
     const handleClose = (isReset: boolean) => {
         setOpen(false);
-        setPlayer(defaultPlayer);
+        setLocation({} as LocationDto);
         if (isReset) {
             setTimeout(() => setResetTable(Math.random()), 500);
         }
@@ -41,12 +40,13 @@ export const PlayersTable = () => {
         <>
             <CommonTable
                 key={resetTable}
-                headers={playerHeadersTable}
-                orderApiFunction={OrderApi.getPlayers}
+                headers={locationHeadersTable}
+                orderApiFunction={OrderApi.getLocations}
                 handleOpenModal={handleClickOpen}/>
+
             {open && (
-                <EditPlayerModal
-                    player={player}
+                <EditLocationModal
+                    location={location}
                     handleClose={handleClose}
                     open={open}/>
             )}
@@ -58,12 +58,12 @@ export const PlayersTable = () => {
                     sx={{
                         marginTop: 2
                     }}>
-                создать игрока
+                создать локацию
             </Button>
 
             <div onClick={() => setOpenError(false)}>
                 <ModalError openModal={openError} objectError={objectError}/>
             </div>
         </>
-    );
+    )
 }

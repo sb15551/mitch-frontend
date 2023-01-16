@@ -37,7 +37,7 @@ const Transition = forwardRef(function Transition(
 
 interface FullScreenModalProps {
     player: PlayerDto;
-    handleClose: () => void;
+    handleClose: (isReset: boolean) => void;
     open: boolean;
 }
 
@@ -51,13 +51,9 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
             surname: player.surname,
             role: player.role.code
         },
-        initialErrors: {
-            name: "",
-            surname: ""
-        },
         onSubmit: (values) => {
             OrderApi.savePlayer(token as string, values);
-            handleClose();
+            handleClose(true);
         }
     });
 
@@ -91,7 +87,7 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
                         <IconButton
                             edge="start"
                             color="inherit"
-                            onClick={handleClose}
+                            onClick={() => handleClose(false)}
                             aria-label="close"
                         >
                             <CloseIcon/>

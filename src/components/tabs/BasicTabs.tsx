@@ -2,6 +2,7 @@ import {SyntheticEvent, useState} from "react";
 import {Box, Tab, Tabs} from "@mui/material";
 import {TabPanel} from "./TabPanel";
 import {PlayersTable} from "../player/admin/PlayersTable";
+import {LocationTable} from "../location/LocationTable";
 import "./BasicTabs.css"
 
 function a11yProps(index: number) {
@@ -28,6 +29,7 @@ export const BasicTabs = () => {
                     textColor={"inherit"}>
                     <Tab label="Турниры" {...a11yProps(0)} />
                     <Tab label="Игроки" {...a11yProps(1)} />
+                    <Tab label="Локации" {...a11yProps(3)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -35,6 +37,9 @@ export const BasicTabs = () => {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <PlayersTable/>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <LocationTable/>
             </TabPanel>
         </Box>
     );

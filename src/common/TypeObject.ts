@@ -44,6 +44,18 @@ export const defaultPlayer: PlayerDto = {
     createdDate: "",
 };
 
+export type LocationsResponseDto = {
+    total: number,
+    rows: Array<LocationDto>
+}
+
+export type LocationDto = {
+    id: number;
+    name: string;
+    address: string;
+}
+
+export type LocationHeaderType = "name" | "address";
 export type PlayerHeaderType = "fullName" | "role" | "telegramId" | "telegramChatId";
 export type TournamentHeaders = "title" | "buyin" | "addon" | "startDate";
 

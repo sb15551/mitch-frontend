@@ -2,7 +2,7 @@ import axios from "axios";
 import {Config} from "./Config";
 import {ISignInForm} from "../components/auth-form";
 import {ApiEnum} from "./ApiEnum";
-import {AuthResponse, PlayerDto, PlayersResponseDto} from "./TypeObject";
+import {AuthResponse, LocationDto, LocationsResponseDto, PlayerDto, PlayersResponseDto} from "./TypeObject";
 
 const instance = axios.create({
     baseURL: Config.url.API_BASE_URL,
@@ -42,5 +42,31 @@ export const OrderApi = {
             {
                 headers: {"Authorization": "Bearer " + token},
             });
-    }
+    },
+
+    getLocations(token: string, page: number, size: number) {
+        return instance.get<LocationsResponseDto>(
+            ApiEnum.GET_LOCATIONS,
+            {
+                headers: {"Authorization": "Bearer " + token},
+                params: {page: page, size: size}
+            });
+    },
+
+    getLocation(token: string, locationId: number) {
+        return instance.get<LocationDto>(
+            ApiEnum.GET_LOCATION + "/" + locationId,
+            {
+                headers: {"Authorization": "Bearer " + token},
+            });
+    },
+
+    saveLocation(token: string, location: any) {
+        return instance.post(
+            ApiEnum.UPSERT_LOCATION,
+            location,
+            {
+                headers: {"Authorization": "Bearer " + token},
+            });
+    },
 }
