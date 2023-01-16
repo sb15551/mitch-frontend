@@ -2,19 +2,19 @@ import {OrderApi} from "../../common/OrderApi";
 import {CommonTable} from "../table/CommonTable";
 import React, {useState} from "react";
 import {locationHeadersTable} from "./LocationHeadersTable";
-import {handleLogError} from "../../common/Helpers";
 import {useAuth} from "../../hooks/use-auth";
 import {LocationDto} from "../../common/TypeObject";
-import {ModalError} from "../modal/ModalError";
 import {EditLocationModal} from "../modal/EditLocationModal";
 import {Button} from "@mui/material";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import {setObjectError} from "../../store/slices/errorSlice";
+import {handleLogError} from "../../common/Helpers";
 
 export const LocationTable = () => {
     const {token} = useAuth();
+    const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
     const [location, setLocation] = useState({} as LocationDto);
-    const [openError, setOpenError] = useState(false);
-    const [objectError, setObjectError] = useState(Object);
     const [resetTable, setResetTable] = useState(0);
     const handleClickOpen = (locationId: number) => {
         OrderApi.getLocation(token as string, locationId)
@@ -23,8 +23,7 @@ export const LocationTable = () => {
                 setOpen(true);
             })
             .catch(error => {
-                setObjectError(handleLogError(error));
-                setOpenError(true);
+                dispatch(setObjectError(handleLogError(error)));
             });
     };
 
@@ -32,7 +31,7 @@ export const LocationTable = () => {
         setOpen(false);
         setLocation({} as LocationDto);
         if (isReset) {
-            setTimeout(() => setResetTable(Math.random()), 500);
+            setTimeout(() => setResetTable(Math.random()), 250);
         }
     };
 
@@ -60,10 +59,6 @@ export const LocationTable = () => {
                     }}>
                 создать локацию
             </Button>
-
-            <div onClick={() => setOpenError(false)}>
-                <ModalError openModal={openError} objectError={objectError}/>
-            </div>
         </>
     )
 }

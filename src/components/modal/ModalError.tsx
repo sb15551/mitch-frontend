@@ -1,7 +1,7 @@
 import {Box, Modal} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {FC, useState} from "react";
-import {ModalMessageError} from "../../common/TypeObject";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
+import {removeObjectError} from "../../store/slices/errorSlice";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -16,27 +16,25 @@ const style = {
     p: 2,
 };
 
-interface ModalErrorProps {
-    openModal: boolean;
-    objectError: ModalMessageError;
-}
-
-export const ModalError: FC<ModalErrorProps> = ({openModal, objectError}) => {
-    const [open, setOpen] = useState(false);
-    const handleClose = () => setOpen(false);
-    return(
+export const ModalError = () => {
+    const {titleError, messageError, open} = useAppSelector(state => state.objectError);
+    const dispatch = useAppDispatch();
+    const handleClose = () => {
+        dispatch(removeObjectError());
+    }
+    return (
         <Modal
-            open={openModal}
+            open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                    {objectError.titleError}
+                    {titleError}
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    {objectError.messageError}
+                <Typography id="modal-modal-description" sx={{mt: 2}}>
+                    {messageError}
                 </Typography>
             </Box>
         </Modal>

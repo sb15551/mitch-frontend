@@ -10,6 +10,7 @@ import ProtectedRoutes from "./components/routes/ProtectedRoutes";
 import Admin from "./pages/Admin";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import {createTheme, ThemeProvider} from "@mui/material";
+import {ModalError} from "./components/modal/ModalError";
 import "./App.css";
 
 declare module '@mui/material/styles' {
@@ -57,6 +58,7 @@ const App = () => {
                     </Route>
                 </Routes>
             </ThemeProvider>
+            <ModalError/>
         </div>
     );
 }

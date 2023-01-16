@@ -4,7 +4,8 @@ import {RowsPerPageEnum} from "../../common/RowsPerPageEnum";
 import {handleLogError} from "../../common/Helpers";
 import {useAuth} from "../../hooks/use-auth";
 import {AxiosResponse} from "axios";
-import {ModalError} from "../modal/ModalError";
+import {setObjectError} from "../../store/slices/errorSlice";
+import {useAppDispatch} from "../../hooks/redux-hooks";
 
 interface CommonTableProps {
     headers: Array<any>;
@@ -14,14 +15,12 @@ interface CommonTableProps {
 
 export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, handleOpenModal}) => {
     const {token} = useAuth();
+    const dispatch = useAppDispatch();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(RowsPerPageEnum.TEN);
 
     const [rows, setRows] = useState(Array<any>);
     const [total, setTotal] = useState(0);
-
-    const [open, setOpen] = useState(false);
-    const [objectError, setObjectError] = useState(Object);
 
     useEffect(() => {
         orderApiFunction(token as string, page, rowsPerPage)
@@ -32,8 +31,7 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                 }
             })
             .catch(error => {
-                setObjectError(handleLogError(error));
-                setOpen(true);
+                dispatch(setObjectError(handleLogError(error)));
             })
     }, [page, rowsPerPage]);
 
@@ -75,7 +73,8 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                                               onClick={() => handleOpenModal(row.id)}
                                               key={row.id}>
                                         {headers.map(item =>
-                                            <TableCell key={item.id}>{item.id === "role" ? row[item.id].name : row[item.id]}</TableCell>
+                                            <TableCell
+                                                key={item.id}>{item.id === "role" ? row[item.id].name : row[item.id]}</TableCell>
                                         )}
                                     </TableRow>
                                 );
@@ -92,10 +91,6 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-
-            <div onClick={() => setOpen(false)}>
-                <ModalError openModal={open} objectError={objectError}/>
-            </div>
         </Paper>
     );
 }

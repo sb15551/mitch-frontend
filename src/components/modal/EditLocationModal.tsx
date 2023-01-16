@@ -7,6 +7,9 @@ import {LocationDto} from "../../common/TypeObject";
 import {useFormik} from "formik";
 import {OrderApi} from "../../common/OrderApi";
 import {useAuth} from "../../hooks/use-auth";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import {setObjectError} from "../../store/slices/errorSlice";
+import {handleLogError} from "../../common/Helpers";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -25,6 +28,7 @@ interface FullScreenModalProps {
 
 export const EditLocationModal: FC<FullScreenModalProps> = ({location, handleClose, open}) => {
     const {token} = useAuth();
+    const dispatch = useAppDispatch();
 
     const myForm = useFormik({
         initialValues: {
@@ -33,7 +37,10 @@ export const EditLocationModal: FC<FullScreenModalProps> = ({location, handleClo
             address: location.address
         },
         onSubmit: (values) => {
-            OrderApi.saveLocation(token as string, values);
+            OrderApi.saveLocation(token as string, values)
+                .catch(error => {
+                    dispatch(setObjectError(handleLogError(error)));
+                });
             handleClose(true);
         }
     });
@@ -61,7 +68,8 @@ export const EditLocationModal: FC<FullScreenModalProps> = ({location, handleClo
                                 "Новая локация" :
                                 location.name + " " + location.address}
                         </Typography>
-                        <Button disabled={myForm.values.name === undefined || myForm.values.address === undefined} autoFocus color="inherit" onClick={myForm.submitForm}>
+                        <Button disabled={myForm.values.name === undefined || myForm.values.address === undefined}
+                                autoFocus color="inherit" onClick={myForm.submitForm}>
                             save
                         </Button>
                     </Toolbar>

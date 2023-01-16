@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -15,13 +15,14 @@ import {useAppDispatch} from "../../hooks/redux-hooks";
 import {setUser} from "../../store/slices/userSlice";
 import {LinkEnum} from "../../common/LinkEnum";
 import {handleLogError} from "../../common/Helpers";
-import {ModalError} from "../modal/ModalError";
+import {setObjectError} from "../../store/slices/errorSlice";
 import './auth-form.css';
 
 export interface ISignInForm {
     login: string;
     password: string;
 }
+
 
 export const AuthForm: React.FC = () => {
     const navigate = useNavigate();
@@ -30,8 +31,6 @@ export const AuthForm: React.FC = () => {
     const {errors} = useFormState({
         control
     })
-    const [open, setOpen] = useState(false);
-    const [objectError, setObjectError] = useState(Object);
 
     const onSubmit: SubmitHandler<ISignInForm> = data => {
         OrderApi.autenticate(data)
@@ -46,8 +45,7 @@ export const AuthForm: React.FC = () => {
                 }
             })
             .catch(error => {
-                setObjectError(handleLogError(error));
-                setOpen(true);
+                dispatch(setObjectError(handleLogError(error)));
             });
     };
     const [showPassword, setShowPassword] = React.useState(false);
@@ -157,10 +155,6 @@ export const AuthForm: React.FC = () => {
                         Мич
                     </a> тебе поможет!
                 </Typography>
-            </div>
-
-            <div onClick={() => setOpen(false)}>
-                <ModalError openModal={open} objectError={objectError}/>
             </div>
         </div>
     )

@@ -3,18 +3,18 @@ import {CommonTable} from "../../table/CommonTable";
 import {playerHeadersTable} from "./PlayerHeadersTable";
 import React, {useState} from "react";
 import {EditPlayerModal} from "../../modal/EditPlayerModal";
-import {handleLogError} from "../../../common/Helpers";
 import {defaultPlayer} from "../../../common/TypeObject";
 import {useAuth} from "../../../hooks/use-auth";
-import {ModalError} from "../../modal/ModalError";
 import {Button} from "@mui/material";
+import {useAppDispatch} from "../../../hooks/redux-hooks";
+import {setObjectError} from "../../../store/slices/errorSlice";
+import {handleLogError} from "../../../common/Helpers";
 
 export const PlayersTable = () => {
     const {token} = useAuth();
+    const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
     const [player, setPlayer] = useState(defaultPlayer);
-    const [openError, setOpenError] = useState(false);
-    const [objectError, setObjectError] = useState(Object);
     const [resetTable, setResetTable] = useState(0);
 
     const handleClickOpen = (playerId: number) => {
@@ -24,8 +24,7 @@ export const PlayersTable = () => {
                 setOpen(true);
             })
             .catch(error => {
-                setObjectError(handleLogError(error));
-                setOpenError(true);
+                dispatch(setObjectError(handleLogError(error)));
             });
     };
 
@@ -33,7 +32,7 @@ export const PlayersTable = () => {
         setOpen(false);
         setPlayer(defaultPlayer);
         if (isReset) {
-            setTimeout(() => setResetTable(Math.random()), 500);
+            setTimeout(() => setResetTable(Math.random()), 250);
         }
     };
 
@@ -60,10 +59,6 @@ export const PlayersTable = () => {
                     }}>
                 создать игрока
             </Button>
-
-            <div onClick={() => setOpenError(false)}>
-                <ModalError openModal={openError} objectError={objectError}/>
-            </div>
         </>
     );
 }

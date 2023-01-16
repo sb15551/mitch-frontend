@@ -25,6 +25,9 @@ import {RoleNameEnum} from "../../common/RoleNameEnum";
 import {useFormik} from "formik";
 import {OrderApi} from "../../common/OrderApi";
 import {useAuth} from "../../hooks/use-auth";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import {setObjectError} from "../../store/slices/errorSlice";
+import {handleLogError} from "../../common/Helpers";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -43,6 +46,7 @@ interface FullScreenModalProps {
 
 export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, open}) => {
     const {token} = useAuth();
+    const dispatch = useAppDispatch();
 
     const myForm = useFormik({
         initialValues: {
@@ -52,7 +56,10 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
             role: player.role.code
         },
         onSubmit: (values) => {
-            OrderApi.savePlayer(token as string, values);
+            OrderApi.savePlayer(token as string, values)
+                .catch(error => {
+                    dispatch(setObjectError(handleLogError(error)));
+                });
             handleClose(true);
         }
     });
