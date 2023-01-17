@@ -2,7 +2,8 @@ import axios from "axios";
 import {Config} from "./Config";
 import {ISignInForm} from "../components/auth-form";
 import {ApiEnum} from "./ApiEnum";
-import {AuthResponse, LocationDto, LocationsResponseDto, PlayerDto, PlayersResponseDto} from "./TypeObject";
+import {AuthResponse, PlayerDto, PlayersResponseDto} from "../dto/PlayerObjects";
+import {LocationDto, LocationsResponseDto} from "../dto/LocationObjects";
 
 const instance = axios.create({
     baseURL: Config.url.API_BASE_URL,

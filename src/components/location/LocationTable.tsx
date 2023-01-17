@@ -3,7 +3,7 @@ import {CommonTable} from "../table/CommonTable";
 import React, {useState} from "react";
 import {locationHeadersTable} from "./LocationHeadersTable";
 import {useAuth} from "../../hooks/use-auth";
-import {LocationDto} from "../../common/TypeObject";
+import {LocationDto} from "../../dto/LocationObjects";
 import {EditLocationModal} from "../modal/EditLocationModal";
 import {Button} from "@mui/material";
 import {useAppDispatch} from "../../hooks/redux-hooks";

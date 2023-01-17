@@ -19,7 +19,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import {TransitionProps} from '@mui/material/transitions';
 import TextField from "@mui/material/TextField";
-import {PlayerDto} from "../../common/TypeObject";
+import {PlayerDto} from "../../dto/PlayerObjects";
 import {RoleCodeEnum} from "../../common/RoleCodeEnum";
 import {RoleNameEnum} from "../../common/RoleNameEnum";
 import {useFormik} from "formik";

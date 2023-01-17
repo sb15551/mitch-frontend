@@ -3,7 +3,7 @@ import {CommonTable} from "../../table/CommonTable";
 import {playerHeadersTable} from "./PlayerHeadersTable";
 import React, {useState} from "react";
 import {EditPlayerModal} from "../../modal/EditPlayerModal";
-import {defaultPlayer} from "../../../common/TypeObject";
+import {defaultPlayer} from "../../../dto/PlayerObjects";
 import {useAuth} from "../../../hooks/use-auth";
 import {Button} from "@mui/material";
 import {useAppDispatch} from "../../../hooks/redux-hooks";

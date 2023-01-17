@@ -3,7 +3,7 @@ import {AppBar, Box, Button, Dialog, IconButton, List, ListItem, Slide, Toolbar,
 import CloseIcon from '@mui/icons-material/Close';
 import {TransitionProps} from '@mui/material/transitions';
 import TextField from "@mui/material/TextField";
-import {LocationDto} from "../../common/TypeObject";
+import {LocationDto} from "../../dto/LocationObjects";
 import {useFormik} from "formik";
 import {OrderApi} from "../../common/OrderApi";
 import {useAuth} from "../../hooks/use-auth";

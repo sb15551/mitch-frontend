@@ -1,6 +1,6 @@
 import {useAppSelector} from './redux-hooks';
 import {LocalStorageKeyEnum} from "../common/LocalStorageKeyEnum";
-import {AuthResponse} from "../common/TypeObject";
+import {AuthResponse} from "../dto/PlayerObjects";
 import {parseJwtPayload} from "../common/Helpers";
 import {RoleCodeEnum} from "../common/RoleCodeEnum";
 
