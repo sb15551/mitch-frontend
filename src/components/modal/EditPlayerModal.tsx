@@ -4,7 +4,6 @@ import {
     Box,
     Button,
     Dialog,
-    Divider,
     FormControl,
     IconButton,
     InputLabel,
@@ -21,13 +20,13 @@ import {TransitionProps} from '@mui/material/transitions';
 import TextField from "@mui/material/TextField";
 import {PlayerDto} from "../../dto/PlayerObjects";
 import {RoleCodeEnum} from "../../common/RoleCodeEnum";
-import {RoleNameEnum} from "../../common/RoleNameEnum";
 import {useFormik} from "formik";
 import {OrderApi} from "../../common/OrderApi";
 import {useAuth} from "../../hooks/use-auth";
-import {useAppDispatch} from "../../hooks/redux-hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {setObjectError} from "../../store/slices/errorSlice";
-import {handleLogError} from "../../common/Helpers";
+import {handleLogError, longRuFormatter} from "../../common/Helpers";
+import {FullScreenModalProps} from "../../common/TypeObject";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -38,17 +37,16 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface FullScreenModalProps {
+interface EditPlayerModalProps extends FullScreenModalProps {
     player: PlayerDto;
-    handleClose: (isReset: boolean) => void;
-    open: boolean;
 }
 
-export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, open}) => {
+export const EditPlayerModal: FC<EditPlayerModalProps> = ({player, handleClose, open}) => {
     const {token} = useAuth();
     const dispatch = useAppDispatch();
+    const {roles} = useAppSelector(state => state.adminConfig);
 
-    const myForm = useFormik({
+    const playerForm = useFormik({
         initialValues: {
             id: player.id,
             name: player.name,
@@ -64,20 +62,13 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
         }
     });
 
-    const longRuFormatter = new Intl.DateTimeFormat('ru-RU', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: "numeric",
-        weekday: "long"
-    })
-
     var isModifyField: boolean;
     if (player.name === "" || player.surname === "") {
-        isModifyField = myForm.values.name === player.name || myForm.values.surname === player.surname;
+        isModifyField = playerForm.values.name === player.name || playerForm.values.surname === player.surname;
     } else {
-        isModifyField = myForm.values.name === player.name && myForm.values.surname === player.surname && myForm.values.role === player.role.code;
+        isModifyField = playerForm.values.name === player.name &&
+            playerForm.values.surname === player.surname &&
+            playerForm.values.role === player.role.code;
     }
 
 
@@ -104,7 +95,7 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
                                 "Новый игрок" :
                                 player.name + " " + player.surname}
                         </Typography>
-                        <Button disabled={isModifyField} autoFocus color="inherit" onClick={myForm.submitForm}>
+                        <Button disabled={isModifyField} autoFocus color="inherit" onClick={playerForm.submitForm}>
                             save
                         </Button>
                     </Toolbar>
@@ -119,20 +110,36 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
                             noValidate
                             autoComplete="off"
                         >
-                            <TextField id="login" name={"login"} label="Login" value={player.login} disabled={true}/>
                             <TextField id="name" name={"name"} label="Name"
-                                       value={myForm.values.name}
-                                       onChange={myForm.handleChange}
-                                       error={myForm.values.name === ""}
+                                       value={playerForm.values.name}
+                                       onChange={playerForm.handleChange}
+                                       error={playerForm.values.name === ""}
                                        required={true}/>
                             <TextField id="surname" name={"surname"} label="Surname"
-                                       value={myForm.values.surname}
-                                       onChange={myForm.handleChange}
-                                       error={myForm.values.surname === ""}
+                                       value={playerForm.values.surname}
+                                       onChange={playerForm.handleChange}
+                                       error={playerForm.values.surname === ""}
                                        required={true}/>
+
+                            {player.role.code !== RoleCodeEnum.ROOT && (
+                                <FormControl>
+                                    <InputLabel id="user-role">Role</InputLabel>
+                                    <Select
+                                        labelId="user-role"
+                                        id="role"
+                                        name="role"
+                                        value={playerForm.values.role}
+                                        label="Role"
+                                        onChange={playerForm.handleChange}
+                                    >
+                                        {roles.map(role =>
+                                            <MenuItem key={role.code} value={role.code}>{role.name}</MenuItem>
+                                        )}
+                                    </Select>
+                                </FormControl>
+                            )}
                         </Box>
                     </ListItem>
-                    <Divider/>
                     <ListItem>
                         <Box
                             component="form"
@@ -142,6 +149,7 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
                             noValidate
                             autoComplete="off"
                         >
+                            <TextField id="login" name={"login"} label="Login" value={player.login} disabled={true}/>
                             <TextField id="telegramChatId"
                                        label="Telegram chat ID" name={"telegramChatId"}
                                        value={player.chatId}
@@ -150,23 +158,6 @@ export const EditPlayerModal: FC<FullScreenModalProps> = ({player, handleClose, 
                                        label="Created date" name={"createdDate"}
                                        value={player.createdDate === "" ? "" : longRuFormatter.format(new Date(player.createdDate))}
                                        disabled={true}/>
-
-                            {myForm.values.role !== RoleCodeEnum.ROOT && (
-                                <FormControl>
-                                    <InputLabel id="user-role">Role</InputLabel>
-                                    <Select
-                                        labelId="user-role"
-                                        id="role"
-                                        name="role"
-                                        value={myForm.values.role}
-                                        label="Role"
-                                        onChange={myForm.handleChange}
-                                    >
-                                        <MenuItem value={RoleCodeEnum.ADMIN}>{RoleNameEnum.ADMIN}</MenuItem>
-                                        <MenuItem value={RoleCodeEnum.PLAYER}>{RoleNameEnum.PLAYER}</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            )}
                         </Box>
                     </ListItem>
                 </List>

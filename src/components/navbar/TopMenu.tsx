@@ -9,6 +9,7 @@ import {removeUser} from "../../store/slices/userSlice";
 import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 import ItemMenu from "./ItemMenu";
 import './TopMenu.css';
+import {removeAdminConfig} from "../../store/slices/adminConfigSlice";
 
 const TopMenu = () => {
     var currentURI = window.location.pathname;
@@ -19,6 +20,7 @@ const TopMenu = () => {
     const logout = () => {
         localStorage.removeItem(LocalStorageKeyEnum.USER);
         dispatch(removeUser());
+        dispatch(removeAdminConfig())
         window.location.reload();
     }
 

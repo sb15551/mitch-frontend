@@ -1,0 +1,5 @@
+export enum StatusCodeEnum {
+    REGISTRATION = "REGISTRATION",
+    INPROGRESS = "INPROGRESS",
+    FINISHED = "FINISHED"
+}

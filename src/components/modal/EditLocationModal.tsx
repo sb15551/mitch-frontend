@@ -10,6 +10,7 @@ import {useAuth} from "../../hooks/use-auth";
 import {useAppDispatch} from "../../hooks/redux-hooks";
 import {setObjectError} from "../../store/slices/errorSlice";
 import {handleLogError} from "../../common/Helpers";
+import {FullScreenModalProps} from "../../common/TypeObject";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -20,13 +21,11 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface FullScreenModalProps {
+interface EditLocationModalProps extends FullScreenModalProps {
     location: LocationDto;
-    handleClose: (isReset: boolean) => void;
-    open: boolean;
 }
 
-export const EditLocationModal: FC<FullScreenModalProps> = ({location, handleClose, open}) => {
+export const EditLocationModal: FC<EditLocationModalProps> = ({location, handleClose, open}) => {
     const {token} = useAuth();
     const dispatch = useAppDispatch();
 

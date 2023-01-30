@@ -4,6 +4,8 @@ import {ISignInForm} from "../components/auth-form";
 import {ApiEnum} from "./ApiEnum";
 import {AuthResponse, PlayerDto, PlayersResponseDto} from "../dto/PlayerObjects";
 import {LocationDto, LocationsResponseDto} from "../dto/LocationObjects";
+import {TournamentDto, TournamentResponseDto} from "../dto/TournamentObjects";
+import {AdminConfigResponseDto} from "../dto/AdminConfigDto";
 
 const instance = axios.create({
     baseURL: Config.url.API_BASE_URL,
@@ -25,6 +27,14 @@ export const OrderApi = {
             {
                 headers: {"Authorization": "Bearer " + token},
                 params: {page: page, size: size}
+            });
+    },
+
+    getAllPlayers(token: string) {
+        return instance.get<Array<PlayerDto>>(
+            ApiEnum.GET_ALL_PLAYERS,
+            {
+                headers: {"Authorization": "Bearer " + token},
             });
     },
 
@@ -66,6 +76,48 @@ export const OrderApi = {
         return instance.post(
             ApiEnum.UPSERT_LOCATION,
             location,
+            {
+                headers: {"Authorization": "Bearer " + token},
+            });
+    },
+
+    getTournaments(token: string, page: number, size: number) {
+        return instance.get<TournamentResponseDto>(
+            ApiEnum.GET_TOURNAMENTS,
+            {
+                headers: {"Authorization": "Bearer " + token},
+                params: {page: page, size: size}
+            });
+    },
+
+    getTournament(token: string, tournamentId: number) {
+        return instance.get<TournamentDto>(
+            ApiEnum.GET_TOURNAMENT + "/" + tournamentId,
+            {
+                headers: {"Authorization": "Bearer " + token}
+            });
+    },
+
+    getAdminConfig(token: string) {
+        return instance.get<AdminConfigResponseDto>(
+            ApiEnum.GET_ADMIN_CONFIG,
+            {
+                headers: {"Authorization": "Bearer " + token}
+            });
+    },
+
+    generateTitle(token: string) {
+        return instance.get<string>(
+            ApiEnum.GET_RANDOM_TITLE,
+            {
+                headers: {"Authorization": "Bearer " + token}
+            });
+    },
+
+    saveTournament(token: string, tournament: any) {
+        return instance.post(
+            ApiEnum.UPSERT_TOURNAMENT,
+            tournament,
             {
                 headers: {"Authorization": "Bearer " + token},
             });

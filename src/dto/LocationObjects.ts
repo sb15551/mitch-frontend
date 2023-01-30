@@ -10,3 +10,9 @@ export type LocationDto = {
 }
 
 export type LocationHeaderType = "name" | "address";
+
+export const defaultLocation: LocationDto = {
+    id: 0,
+    name: "",
+    address: ""
+}

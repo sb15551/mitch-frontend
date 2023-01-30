@@ -4,6 +4,7 @@ import {TabPanel} from "./TabPanel";
 import {PlayersTable} from "../player/admin/PlayersTable";
 import {LocationTable} from "../location/LocationTable";
 import "./BasicTabs.css"
+import {TournamentTable} from "../tournament/TournamentTable";
 
 function a11yProps(index: number) {
     return {
@@ -33,7 +34,7 @@ export const BasicTabs = () => {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                Item One
+                <TournamentTable/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <PlayersTable/>

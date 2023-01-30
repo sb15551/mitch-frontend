@@ -1,7 +1,7 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 import React, {ChangeEvent, FC, useEffect, useState} from "react";
 import {RowsPerPageEnum} from "../../common/RowsPerPageEnum";
-import {handleLogError} from "../../common/Helpers";
+import {handleLogError, longRuFormatter} from "../../common/Helpers";
 import {useAuth} from "../../hooks/use-auth";
 import {AxiosResponse} from "axios";
 import {setObjectError} from "../../store/slices/errorSlice";
@@ -44,6 +44,20 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
         setPage(0);
     };
 
+    const handleCell = (item: any, row: any) => {
+        var cell: string = "";
+        if (item.id === "role") {
+            cell = row[item.id].name;
+        } else {
+            if (item.id === "eventDate") {
+                cell = longRuFormatter.format(new Date(row.eventDate));
+            } else {
+                cell = row[item.id];
+            }
+        }
+        return cell;
+    };
+
     return (
         <Paper sx={{width: '100%', overflow: 'hidden'}}>
             <TableContainer sx={{maxHeight: 620}}>
@@ -74,7 +88,7 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                                               key={row.id}>
                                         {headers.map(item =>
                                             <TableCell
-                                                key={item.id}>{item.id === "role" ? row[item.id].name : row[item.id]}</TableCell>
+                                                key={item.id}>{handleCell(item, row)}</TableCell>
                                         )}
                                     </TableRow>
                                 );
