@@ -370,6 +370,7 @@ export const EditRegistrationTournamentModal: FC<EditTournamentModalProps> = ({t
                             labelPlacement="top"
                         />
                     </Box>
+                    {/*TODO: move it to a component*/}
                     <Paper sx={{width: '100%', overflow: 'hidden'}}>
                         <TableContainer sx={{maxHeight: 620}}>
                             <Table stickyHeader aria-label="sticky table">

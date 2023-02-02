@@ -43,6 +43,7 @@ import {defaultPlayer} from "../../../dto/PlayerObjects";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import {participantHeadersTable} from "../../tournament/participant/ParticipantHeadersTable";
+import {StatusCodeEnum} from "../../../common/StatusCodeEnum";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -61,6 +62,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
     const {token} = useAuth();
     const dispatch = useAppDispatch();
     const {statuses, locations} = useAppSelector(state => state.adminConfig);
+    const [isFinished, setIsFinished] = useState(false);
 
     const getParticipants = (participants: Array<TournamentParticipantDto>) => {
         participants
@@ -199,6 +201,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
 
     useEffect(() => {
         calculateBank();
+        setIsFinished(tournament.statusCode === StatusCodeEnum.FINISHED || tournament.statusCode === StatusCodeEnum.NOT_HAPPENED)
     }, []);
 
     return (
@@ -224,7 +227,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                                 "Новый турнир" :
                                 tournament.title + "\n" + longRuFormatter.format(new Date(tournament.eventDate))}
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={tournamentForm.submitForm}>
+                        <Button disabled={isFinished} autoFocus color="inherit" onClick={tournamentForm.submitForm}>
                             save
                         </Button>
                     </Toolbar>
@@ -239,13 +242,14 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                         autoComplete="off"
                     >
                         <TextField
+                            disabled={isFinished}
                             id="title" name={"title"} label="Title"
                             value={tournamentForm.values.title}
                             onChange={tournamentForm.handleChange}
                             sx={{
                                 '& > :not(style)': {width: "35ch"},
                             }}
-                            InputProps={{
+                            InputProps={!isFinished ? {
                                 endAdornment: (
                                     <Tooltip title="Сгенерировать" arrow>
                                         <InputAdornment position="end">
@@ -259,9 +263,10 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                                         </InputAdornment>
                                     </Tooltip>
                                 )
-                            }}
+                            } : undefined}
                         />
                         <TextField
+                            disabled={isFinished}
                             id="eventDate"
                             label="Event date"
                             type="datetime-local"
@@ -275,6 +280,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                             onChange={tournamentForm.handleChange}
                         />
                         <FormControl
+                            disabled={isFinished}
                             id="locationSelect"
                             sx={{
                                 '& > :not(style)': {width: "25ch"},
@@ -306,6 +312,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                         autoComplete="off"
                     >
                         <TextField
+                            disabled={isFinished}
                             type="number"
                             id="buyin"
                             label="Buy-in"
@@ -314,6 +321,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                             inputProps={{min: 0, style: {textAlign: 'center'}}}
                         />
                         <TextField
+                            disabled={isFinished}
                             type="number"
                             id="rebuy"
                             label="Re-buy"
@@ -322,6 +330,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                             inputProps={{min: 0, style: {textAlign: 'center'}}}
                         />
                         <TextField
+                            disabled={isFinished}
                             type="number"
                             id="addon"
                             label="Addon"
@@ -330,6 +339,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                             inputProps={{min: 0, style: {textAlign: 'center'}}}
                         />
                         <TextField
+                            disabled={isFinished}
                             type="number"
                             id="topPlaces"
                             label="Top places"
@@ -350,6 +360,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                         autoComplete="off"
                     >
                         <FormControl
+                            disabled={isFinished}
                             sx={{
                                 '& > :not(style)': {m: 2, width: "25ch"},
                             }}>
@@ -369,6 +380,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                             </Select>
                         </FormControl>
                         <FormControlLabel
+                            disabled={isFinished}
                             sx={{margin: "10px 0 0 0"}}
                             control={
                                 <Checkbox
@@ -383,6 +395,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                             labelPlacement="top"
                         />
                     </Box>
+                    {/*TODO: move it to a component*/}
                     <Paper sx={{width: '100%', overflow: 'hidden'}}>
                         <TableContainer sx={{maxHeight: 620}}>
                             <Table stickyHeader aria-label="sticky table">
@@ -418,6 +431,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                                                 </TableCell>
                                                 <TableCell>
                                                     <Select
+                                                        disabled={isFinished}
                                                         style={{width: "100%"}}
                                                         id="byPlayer"
                                                         name="byPlayer"
@@ -449,17 +463,20 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <IconButton size={"small"}
+                                                                disabled={isFinished}
                                                                 onClick={() => decNum(playerIndex)}>
                                                         <RemoveIcon fontSize={"small"}/>
                                                     </IconButton>
                                                     {player.countRebuy}
                                                     <IconButton size={"small"}
+                                                                disabled={isFinished}
                                                                 onClick={() => incNum(playerIndex)}>
                                                         <AddIcon fontSize={"small"}/>
                                                     </IconButton>
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <Checkbox
+                                                        disabled={isFinished}
                                                         checked={player.isAddon}
                                                         onChange={() => handleChangeAddon(playerIndex, !player.isAddon)}
                                                     />
