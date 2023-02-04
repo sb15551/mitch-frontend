@@ -3,12 +3,11 @@ import {
     AppBar,
     Box,
     Button,
+    Container,
     Dialog,
     FormControl,
     IconButton,
     InputLabel,
-    List,
-    ListItem,
     MenuItem,
     Select,
     Slide,
@@ -100,67 +99,63 @@ export const EditPlayerModal: FC<EditPlayerModalProps> = ({player, handleClose, 
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <List>
-                    <ListItem>
-                        <Box
-                            component="form"
-                            sx={{
-                                '& > :not(style)': {m: 1, width: '35ch'},
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField id="name" name={"name"} label="Name"
-                                       value={playerForm.values.name}
-                                       onChange={playerForm.handleChange}
-                                       error={playerForm.values.name === ""}
-                                       required={true}/>
-                            <TextField id="surname" name={"surname"} label="Surname"
-                                       value={playerForm.values.surname}
-                                       onChange={playerForm.handleChange}
-                                       error={playerForm.values.surname === ""}
-                                       required={true}/>
+                <Container maxWidth="lg">
+                    <Box
+                        component="form"
+                        sx={{
+                            '& > :not(style)': {m: 2, width: '35ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField id="name" name={"name"} label="Name"
+                                   value={playerForm.values.name}
+                                   onChange={playerForm.handleChange}
+                                   error={playerForm.values.name === ""}
+                                   required={true}/>
+                        <TextField id="surname" name={"surname"} label="Surname"
+                                   value={playerForm.values.surname}
+                                   onChange={playerForm.handleChange}
+                                   error={playerForm.values.surname === ""}
+                                   required={true}/>
 
-                            {player.role.code !== RoleCodeEnum.ROOT && (
-                                <FormControl>
-                                    <InputLabel id="user-role">Role</InputLabel>
-                                    <Select
-                                        labelId="user-role"
-                                        id="role"
-                                        name="role"
-                                        value={playerForm.values.role}
-                                        label="Role"
-                                        onChange={playerForm.handleChange}
-                                    >
-                                        {roles.map(role =>
-                                            <MenuItem key={role.code} value={role.code}>{role.name}</MenuItem>
-                                        )}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        </Box>
-                    </ListItem>
-                    <ListItem>
-                        <Box
-                            component="form"
-                            sx={{
-                                '& > :not(style)': {m: 1, width: '35ch'},
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField id="login" name={"login"} label="Login" value={player.login} disabled={true}/>
-                            <TextField id="telegramChatId"
-                                       label="Telegram chat ID" name={"telegramChatId"}
-                                       value={player.chatId}
-                                       disabled={true}/>
-                            <TextField id="createdDate"
-                                       label="Created date" name={"createdDate"}
-                                       value={player.createdDate === "" ? "" : longRuFormatter.format(new Date(player.createdDate))}
-                                       disabled={true}/>
-                        </Box>
-                    </ListItem>
-                </List>
+                        {player.role.code !== RoleCodeEnum.ROOT && (
+                            <FormControl>
+                                <InputLabel id="user-role">Role</InputLabel>
+                                <Select
+                                    labelId="user-role"
+                                    id="role"
+                                    name="role"
+                                    value={playerForm.values.role}
+                                    label="Role"
+                                    onChange={playerForm.handleChange}
+                                >
+                                    {roles.map(role =>
+                                        <MenuItem key={role.code} value={role.code}>{role.name}</MenuItem>
+                                    )}
+                                </Select>
+                            </FormControl>
+                        )}
+                    </Box>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& > :not(style)': {m: 2, width: '35ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField id="login" name={"login"} label="Login" value={player.login} disabled={true}/>
+                        <TextField id="telegramChatId"
+                                   label="Telegram chat ID" name={"telegramChatId"}
+                                   value={player.chatId}
+                                   disabled={true}/>
+                        <TextField id="createdDate"
+                                   label="Created date" name={"createdDate"}
+                                   value={player.createdDate === "" ? "" : longRuFormatter.format(new Date(player.createdDate))}
+                                   disabled={true}/>
+                    </Box>
+                </Container>
             </Dialog>
         </div>
     );

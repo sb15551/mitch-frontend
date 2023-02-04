@@ -55,6 +55,15 @@ export const OrderApi = {
             });
     },
 
+    savePlayerSettings(token: string, settings: any) {
+        return instance.post(
+            ApiEnum.GET_PLAYER_SETTINGS,
+            settings,
+            {
+                headers: {"Authorization": "Bearer " + token},
+            });
+    },
+
     getLocations(token: string, page: number, size: number) {
         return instance.get<LocationsResponseDto>(
             ApiEnum.GET_LOCATIONS,

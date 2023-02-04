@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Logo from '../../static/logo.png';
+import Logo from '../../static/logo.svg';
 import {AiOutlineClose, AiOutlineMenu} from 'react-icons/ai';
 import {Menu} from "./Menu";
 import {Link} from "react-router-dom";
@@ -8,8 +8,8 @@ import {useAppDispatch} from "../../hooks/redux-hooks";
 import {removeUser} from "../../store/slices/userSlice";
 import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 import ItemMenu from "./ItemMenu";
-import './TopMenu.css';
 import {removeAdminConfig} from "../../store/slices/adminConfigSlice";
+import './TopMenu.css';
 
 const TopMenu = () => {
     var currentURI = window.location.pathname;
@@ -34,7 +34,7 @@ const TopMenu = () => {
                 <div className="box">
                     <div className="logo">
                         <Link to="/">
-                            <img src={Logo} alt='/'/>
+                            <img src={Logo} alt='/' height="70px"/>
                             <span className="logo_text">Mitch</span>
                         </Link>
                     </div>

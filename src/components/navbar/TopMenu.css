@@ -25,6 +25,7 @@
     letter-spacing: 1rem;
     font-weight: bolder;
     font-size: 2rem;
+    padding-left: 10px;
 }
 
 .menu {
@@ -53,8 +54,8 @@
     .mobile_btn {
         display: block;
         position: absolute;
-        right: 10px;
-        top: 27px;
+        right: 20px;
+        top: 37px;
         cursor: pointer;
         z-index: 10;
     }

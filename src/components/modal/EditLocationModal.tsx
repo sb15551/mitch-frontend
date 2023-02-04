@@ -1,5 +1,5 @@
 import React, {FC, forwardRef} from 'react';
-import {AppBar, Box, Button, Dialog, IconButton, List, ListItem, Slide, Toolbar, Typography} from '@mui/material';
+import {AppBar, Box, Button, Container, Dialog, IconButton, Slide, Toolbar, Typography} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import {TransitionProps} from '@mui/material/transitions';
 import TextField from "@mui/material/TextField";
@@ -73,25 +73,23 @@ export const EditLocationModal: FC<EditLocationModalProps> = ({location, handleC
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <List>
-                    <ListItem>
-                        <Box
-                            component="form"
-                            sx={{
-                                '& > :not(style)': {m: 1, width: '35ch'},
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField id="name" name={"name"} label="Name"
-                                       value={myForm.values.name}
-                                       onChange={myForm.handleChange}/>
-                            <TextField id="address" name={"address"} label="Address"
-                                       value={myForm.values.address}
-                                       onChange={myForm.handleChange}/>
-                        </Box>
-                    </ListItem>
-                </List>
+                <Container maxWidth="lg">
+                    <Box
+                        component="form"
+                        sx={{
+                            '& > :not(style)': {m: 3, width: '35ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField id="name" name={"name"} label="Name"
+                                   value={myForm.values.name}
+                                   onChange={myForm.handleChange}/>
+                        <TextField id="address" name={"address"} label="Address"
+                                   value={myForm.values.address}
+                                   onChange={myForm.handleChange}/>
+                    </Box>
+                </Container>
             </Dialog>
         </div>
     );

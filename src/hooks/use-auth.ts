@@ -5,7 +5,7 @@ import {parseJwtPayload} from "../common/Helpers";
 import {RoleCodeEnum} from "../common/RoleCodeEnum";
 
 export function useAuth() {
-    const {login, token, id, userRole} = useAppSelector(state => state.user);
+    const {login, id, userRole} = useAppSelector(state => state.user);
     var localStorageUser = localStorage.getItem(LocalStorageKeyEnum.USER);
     var currentUser: AuthResponse = JSON.parse(localStorageUser as string);
 
@@ -14,7 +14,9 @@ export function useAuth() {
             isAuth: !!currentUser,
             isAdminRole: !!currentUser,
             login,
-            token,
+            name: "",
+            surname: "",
+            token: "",
             id,
             userRole
         };
@@ -29,6 +31,8 @@ export function useAuth() {
             isAuth: !!currentUser && nowDate <= exp,
             isAdminRole: adminRoles.includes(role),
             login: currentUser.login,
+            name: currentUser.name,
+            surname: currentUser.surname,
             token: currentUser.token,
             id: currentUser.id,
             userRole: role

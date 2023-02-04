@@ -3,6 +3,7 @@ export enum ApiEnum {
     GET_PLAYERS = "/api/v1/players",
     GET_ALL_PLAYERS = "/api/v1/all_players",
     GET_PLAYER = "/api/v1/player",
+    GET_PLAYER_SETTINGS = "/api/v1/player/settings",
     GET_LOCATIONS = "/api/v1/locations",
     GET_LOCATION = "/api/v1/location",
     UPSERT_LOCATION = "/api/v1/location/upsert",

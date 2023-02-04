@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Controller, SubmitHandler, useForm, useFormState} from "react-hook-form";
 import {loginValidation, passwordValidation} from './validation';
-import Logo from "../../static/logo.png";
+import Logo from "../../static/logo.svg";
 import {IconButton, InputAdornment} from "@mui/material";
 import PasswordIcon from '@mui/icons-material/Password';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -38,6 +38,8 @@ export const AuthForm: React.FC = () => {
                 if (response.status === 200) {
                     dispatch(setUser({
                         login: response.data.login,
+                        name: response.data.name,
+                        surname: response.data.surname,
                         id: response.data.id,
                         token: response.data.token,
                     }));
@@ -59,7 +61,7 @@ export const AuthForm: React.FC = () => {
     return (
         <div className="auth-form">
             <div className="auth-logo">
-                <img src={Logo} alt='/'/>
+                <img src={Logo} alt='/' width="100px"/>
                 <div className="auth-logo-text">M i t c h</div>
             </div>
             <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>

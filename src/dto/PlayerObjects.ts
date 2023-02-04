@@ -3,7 +3,9 @@ import {RoleCodeEnum} from "../common/RoleCodeEnum";
 export type AuthResponse = {
     id: number,
     login: string,
-    token: string
+    token: string,
+    name: string,
+    surname: string
 }
 
 export type Role = {
