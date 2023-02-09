@@ -183,7 +183,6 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
         }
     }
 
-
     const decNum = (index: number) => {
         if (tournamentForm.values.participants[index].countRebuy > 0) {
             --tournamentForm.values.participants[index].countRebuy;
@@ -212,7 +211,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                 onClose={handleClose}
                 TransitionComponent={Transition}
             >
-                <AppBar sx={{position: 'relative', background: "black"}}>
+                <AppBar sx={{position: 'sticky', background: "black"}}>
                     <Toolbar>
                         <IconButton
                             edge="start"

@@ -1,13 +1,12 @@
 import TopMenu from "../components/navbar/TopMenu";
 import React from "react";
+import {UserTournamentTable} from "../components/tournament/UserTournamentTable";
 
 const Tournaments = () => {
     return (
         <>
             <TopMenu/>
-            <div className="content">
-                <h1>Tournaments page</h1>
-            </div>
+            <UserTournamentTable/>
         </>
     );
 }

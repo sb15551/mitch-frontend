@@ -131,4 +131,13 @@ export const OrderApi = {
                 headers: {"Authorization": "Bearer " + token},
             });
     },
+
+    registerForTournament(token: string, data: any) {
+        return instance.post(
+            ApiEnum.REGISTER_FOR,
+            data,
+            {
+                headers: {"Authorization": "Bearer " + token}
+            });
+    },
 }

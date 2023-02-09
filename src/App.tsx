@@ -11,6 +11,13 @@ import Admin from "./pages/Admin";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {ModalError} from "./components/modal/ModalError";
+import {Notification} from "./components/notification/Notification";
+import {useAuth} from "./hooks/use-auth";
+import {useAppDispatch, useAppSelector} from "./hooks/redux-hooks";
+import {OrderApi} from "./common/OrderApi";
+import {setAdminConfig, setLocations} from "./store/slices/adminConfigSlice";
+import {setObjectError} from "./store/slices/errorSlice";
+import {handleLogError} from "./common/Helpers";
 import "./App.css";
 
 declare module '@mui/material/styles' {
@@ -37,11 +44,55 @@ const theme = createTheme({
         neutral: {
             main: '#000',
             contrastText: '#fff',
+        }
+    },
+    components: {
+        MuiAlert: {
+            styleOverrides: {
+                standardSuccess: {
+                    backgroundColor: 'green',
+                    color: 'white',
+                },
+                standardError: {
+                    backgroundColor: 'red',
+                    color: 'white'
+                },
+                standardWarning: {
+                    backgroundColor: 'orange',
+                    color: 'white'
+                },
+                standardInfo: {
+                    backgroundColor: 'grey',
+                    color: 'black'
+                }
+            },
         },
     },
 });
 
 const App = () => {
+    const {token, isAuth} = useAuth();
+    const dispatch = useAppDispatch();
+    const {isDownload} = useAppSelector(state => state.adminConfig);
+
+    if (!isDownload && isAuth) {
+        OrderApi.getAdminConfig(token as string)
+            .then(response => {
+                dispatch(setAdminConfig(response.data))
+            })
+            .catch(error => {
+                dispatch(setObjectError(handleLogError(error)));
+            });
+
+        // TODO: пока локаций не много, параметры пагинации для селектов захардкодим
+        OrderApi.getLocations(token as string, 0, 100)
+            .then(response => {
+                dispatch(setLocations(response.data))
+            })
+            .catch(error => {
+                dispatch(setObjectError(handleLogError(error)));
+            });
+    }
     return (
         <div className="App">
             <ThemeProvider theme={theme}>
@@ -57,6 +108,7 @@ const App = () => {
                         </Route>
                     </Route>
                 </Routes>
+                <Notification/>
             </ThemeProvider>
             <ModalError/>
         </div>

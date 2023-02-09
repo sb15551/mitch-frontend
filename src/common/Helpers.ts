@@ -16,17 +16,14 @@ export const parseJwtPayload = (token: string) => {
 }
 
 export const handleLogError = (error: any) => {
-    var message: string = "";
+    var message: string;
     if (error.response) {
         if (error.response.status === 401 || error.response.status === 403) {
             message = "\nНеправильный логин или пароль";
-            console.log(error.response.data);
+        } else {
+            message = error.response.data.message;
         }
-    } else if (error.request) {
-        message = "\nЧто-то пошло не так, повтори попытку позже";
-        console.log(error.request);
     } else {
-        console.log(error.message);
         message = "\nЧто-то пошло не так, повтори попытку позже";
     }
     var objectError: ModalMessageError = {titleError: error.message, messageError: message};

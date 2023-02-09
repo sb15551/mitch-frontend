@@ -5,7 +5,7 @@ import {parseJwtPayload} from "../common/Helpers";
 import {RoleCodeEnum} from "../common/RoleCodeEnum";
 
 export function useAuth() {
-    const {login, id, userRole} = useAppSelector(state => state.user);
+    const {login, userRole} = useAppSelector(state => state.user);
     var localStorageUser = localStorage.getItem(LocalStorageKeyEnum.USER);
     var currentUser: AuthResponse = JSON.parse(localStorageUser as string);
 
@@ -17,7 +17,7 @@ export function useAuth() {
             name: "",
             surname: "",
             token: "",
-            id,
+            id: 0,
             userRole
         };
     } else {

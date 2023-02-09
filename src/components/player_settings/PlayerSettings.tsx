@@ -1,8 +1,8 @@
 import {FormikErrors, useFormik} from "formik";
 import {useAuth} from "../../hooks/use-auth";
 import TextField from "@mui/material/TextField";
-import React, {useState} from "react";
-import {Alert, Box, Container, Divider, InputAdornment, Snackbar, SnackbarOrigin} from "@mui/material";
+import React from "react";
+import {Box, Container, Divider, InputAdornment} from "@mui/material";
 import PasswordIcon from "@mui/icons-material/Password";
 import Button from "@mui/material/Button";
 import bcrypt from "bcryptjs";
@@ -11,18 +11,13 @@ import {setObjectError} from "../../store/slices/errorSlice";
 import {handleLogError} from "../../common/Helpers";
 import {useAppDispatch} from "../../hooks/redux-hooks";
 import {setUser} from "../../store/slices/userSlice";
+import {setNotification} from "../../store/slices/notificationSlice";
 
 interface PlayerSettingsValue {
     name: string;
     surname: string;
     password: string;
     confirmPassword: string;
-}
-
-export interface NotificationState extends SnackbarOrigin {
-    open: boolean;
-    severity: "success" | "error";
-    text: string;
 }
 
 const validate = (values: PlayerSettingsValue) => {
@@ -40,11 +35,11 @@ const validate = (values: PlayerSettingsValue) => {
     }
 
     if (values.password.match(/[а-яА-Я]/)) {
-        errors.password =  "Пароль не может содержать русские буквы"
+        errors.password = "Пароль не может содержать русские буквы"
     }
 
     if (!values.password.match(/^\S*$/)) {
-        errors.password =  "Пароль не может содержать пробел"
+        errors.password = "Пароль не может содержать пробел"
     }
 
     return errors;
@@ -54,22 +49,8 @@ export const PlayerSettings = () => {
     const dispatch = useAppDispatch();
     const {id, token, name, surname} = useAuth();
 
-    const [notification, setNotification] = useState<NotificationState>({
-        open: false,
-        vertical: 'top',
-        horizontal: 'right',
-        severity: "success",
-        text: ""
-    });
-
-    const { vertical, horizontal, open, text, severity } = notification;
-
     const openNotification = (severity: "success" | "error", text: string) => {
-        setNotification({ ...notification, open: true, severity: severity, text: text });
-    };
-
-    const closeNotification = () => {
-        setNotification({ ...notification, open: false });
+        dispatch(setNotification({severity: severity, text: text, open: true}))
     };
 
     const settingsForm = useFormik({
@@ -109,7 +90,6 @@ export const PlayerSettings = () => {
                     .catch(error => {
                         dispatch(setObjectError(handleLogError(error)));
                     });
-                console.log("settingsForm.values.name", settingsForm.values.name)
             } else {
                 openNotification("error", "Ни одно поле не изменено!!!");
             }
@@ -197,7 +177,7 @@ export const PlayerSettings = () => {
                     />
                 </Box>
                 <Button
-                    disabled={!isModifyField && !settingsForm.isValid}
+                    disabled={!settingsForm.isValid}
                     color="neutral"
                     type="submit"
                     variant="contained"
@@ -210,16 +190,6 @@ export const PlayerSettings = () => {
                     сохранить
                 </Button>
             </center>
-            <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
-                open={open}
-                onClose={closeNotification}
-                autoHideDuration={2000}
-            >
-                <Alert onClose={closeNotification} severity={severity} sx={{ width: '100%' }}>
-                    {text}
-                </Alert>
-            </Snackbar>
         </Container>
     )
 }
