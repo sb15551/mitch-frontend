@@ -13,4 +13,5 @@ export enum ApiEnum {
     GET_ADMIN_CONFIG = "/api/v1/admin_config",
     GET_RANDOM_TITLE = "/api/v1/random_title",
     REGISTER_FOR = "/api/v1/tournament/register",
+    GET_COMMON_STAT = "/api/v1/stat",
 }

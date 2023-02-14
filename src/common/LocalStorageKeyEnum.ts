@@ -1,3 +1,4 @@
 export enum LocalStorageKeyEnum {
-    USER = "user"
+    USER = "user",
+    LOGIN = "login"
 }

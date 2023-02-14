@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -16,6 +16,7 @@ import {setUser} from "../../store/slices/userSlice";
 import {LinkEnum} from "../../common/LinkEnum";
 import {handleLogError} from "../../common/Helpers";
 import {setObjectError} from "../../store/slices/errorSlice";
+import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 import './auth-form.css';
 
 export interface ISignInForm {
@@ -23,14 +24,14 @@ export interface ISignInForm {
     password: string;
 }
 
-
-export const AuthForm: React.FC = () => {
+export const AuthForm: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const {handleSubmit, control} = useForm<ISignInForm>();
+    const {handleSubmit, control, setValue} = useForm<ISignInForm>();
     const {errors} = useFormState({
         control
     })
+    const [login, setLogin] = useState(localStorage.getItem(LocalStorageKeyEnum.LOGIN));
 
     const onSubmit: SubmitHandler<ISignInForm> = data => {
         OrderApi.autenticate(data)
@@ -58,6 +59,12 @@ export const AuthForm: React.FC = () => {
         event.preventDefault();
     };
 
+    useEffect(() => {
+        if (login !== null) {
+            setValue("login", login);
+        }
+    }, [])
+
     return (
         <div className="auth-form">
             <div className="auth-logo">
@@ -72,7 +79,7 @@ export const AuthForm: React.FC = () => {
                     render={({field}) => (
                         <TextField
                             label="Telegram ID"
-                            onChange={(e) => field.onChange(e)}
+                            onChange={field.onChange}
                             value={field.value}
                             fullWidth={true}
                             size="small"
@@ -100,7 +107,7 @@ export const AuthForm: React.FC = () => {
                     render={({field}) => (
                         <TextField
                             label="Password"
-                            onChange={(e) => field.onChange(e)}
+                            onChange={field.onChange}
                             value={field.value}
                             fullWidth={true}
                             InputProps={{

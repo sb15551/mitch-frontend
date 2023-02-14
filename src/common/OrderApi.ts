@@ -140,4 +140,12 @@ export const OrderApi = {
                 headers: {"Authorization": "Bearer " + token}
             });
     },
+
+    getCommonStat(token: string) {
+        return instance.get(
+            ApiEnum.GET_COMMON_STAT,
+            {
+                headers: {"Authorization": "Bearer " + token}
+            });
+    },
 }

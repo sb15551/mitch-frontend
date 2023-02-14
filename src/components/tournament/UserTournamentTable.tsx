@@ -8,6 +8,7 @@ import {setObjectError} from "../../store/slices/errorSlice";
 import {handleLogError} from "../../common/Helpers";
 import {defaultTournament} from "../../dto/TournamentObjects";
 import {UserTournamentModal} from "../modal/tounament/UserTournamentModal";
+import {Container} from "@mui/material";
 
 export const UserTournamentTable = () => {
     const {token} = useAuth();
@@ -35,7 +36,10 @@ export const UserTournamentTable = () => {
     };
 
     return (
-        <>
+        <Container maxWidth="lg"
+                   sx={{
+                       paddingTop: "20px"
+                   }}>
             <CommonTable
                 key={resetTable}
                 headers={tournamentHeadersTable}
@@ -46,6 +50,6 @@ export const UserTournamentTable = () => {
                     tournament={tournament}
                     handleClose={handleClose}
                     open={open}/>)}
-        </>
+        </Container>
     )
 }
