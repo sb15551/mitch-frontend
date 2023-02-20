@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  ui:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mitch-fe
+    ports:
+      - 80:80
