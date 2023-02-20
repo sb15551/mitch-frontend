@@ -3,9 +3,7 @@ version: "3.9"
 services:
   ui:
     restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: sb15551/mitch-frontend:latest
     container_name: mitch-fe
     ports:
       - 80:80
