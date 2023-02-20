@@ -2,7 +2,7 @@ name: Deployment scp
 on: workflow_dispatch
 env:
   DEPLOY_PATH: /root/app/frontend
-  BUILD_SCRIPT_OUTPUT: docker-compose.yaml
+  BUILD_SCRIPT_OUTPUT: ./docker-compose.yaml
 jobs:
   deploy:
     runs-on: ubuntu-20.04
