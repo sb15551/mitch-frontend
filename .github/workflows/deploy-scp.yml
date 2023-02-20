@@ -33,3 +33,13 @@ jobs:
           source: ${{ env.BUILD_SCRIPT_OUTPUT }}
           target: ${{ env.DEPLOY_PATH }}
           strip_components: 1
+      
+      - name: Run SSH Commands
+        uses: arthurvanl/action-exec-ssh@v2.0.7
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_HOST }}
+          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+          password: ${{ secrets.DEPLOY_SERVER_USERNAME_PASSWORD }}
+          commands: |
+            docker-compose -f /root/app/frontend/docker-compose.yaml down
+            docker-compose -f /root/app/frontend/docker-compose.yaml up -d
