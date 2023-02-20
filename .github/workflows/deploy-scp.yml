@@ -1,4 +1,4 @@
-name: Deployment
+name: Deployment scp
 on: workflow_dispatch
 env:
   DEPLOY_PATH: /root/app/frontend
