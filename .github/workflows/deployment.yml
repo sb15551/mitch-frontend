@@ -1,10 +1,14 @@
-name: Deployment scp
-on: workflow_dispatch
+name: Deployment app
+on:
+  pull_request:
+    branches: [master,main]
+    types: closed
 env:
   DEPLOY_PATH: /root/app/frontend
   BUILD_SCRIPT_OUTPUT: ./docker-compose.yaml
 jobs:
   deploy:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
