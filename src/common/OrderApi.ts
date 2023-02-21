@@ -10,10 +10,7 @@ import {AdminConfigResponseDto} from "../dto/AdminConfigDto";
 const instance = axios.create({
     baseURL: Config.url.API_BASE_URL,
     headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*"
-
+        'Content-Type': 'application/json'
     }
 })
 
