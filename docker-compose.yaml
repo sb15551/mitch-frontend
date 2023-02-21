@@ -8,8 +8,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 127.0.0.102:80:80
-      - 127.0.0.102:443:443
     volumes:
       - /root/app/certs:/etc/nginx/certs
       - /root/app/conf:/etc/nginx/conf.d
