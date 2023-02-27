@@ -2,6 +2,7 @@ import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
 import {participantHeadersTable} from "./ParticipantHeadersTable";
 import React, {FC} from "react";
 import {TournamentDto, TournamentParticipantDto} from "../../../dto/TournamentObjects";
+import {handleFullName} from "../../../common/Helpers";
 
 export interface UserParticipantTableProps {
     tournament: TournamentDto;
@@ -43,7 +44,7 @@ export const UserParticipantInProgressTable: FC<UserParticipantTableProps> = ({t
                                 <TableRow key={player.id}>
                                     <TableCell align="center">{player.place}</TableCell>
                                     <TableCell>
-                                        {player.player.name + " " + player.player.surname}
+                                        {handleFullName(player.player.name, player.player.surname)}
                                     </TableCell>
                                     <TableCell>
                                         {player.byPlayer === null ? "" : player.byPlayer.name + " " + player.byPlayer.surname}
