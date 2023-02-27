@@ -45,3 +45,8 @@ export const getTodayDate = () => {
     today.setSeconds(0);
     return format(today, "yyyy-MM-dd'T'HH:mm");
 }
+
+export const handleFullName = (firstName: string, surName: string) => {
+    return (!!firstName ? firstName : "") + " " +
+            (!!surName ? surName : "");
+}

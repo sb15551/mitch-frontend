@@ -2,6 +2,7 @@ import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, T
 import {participantHeadersTable} from "./ParticipantHeadersTable";
 import React, {FC} from "react";
 import {UserParticipantTableProps} from "./UserParticipantInProgressTable";
+import {handleFullName} from "../../../common/Helpers";
 
 interface UserParticipantRegistrationTableProps extends UserParticipantTableProps {
     registerFor: (isRegistered: boolean, text: string) => void
@@ -58,7 +59,7 @@ export const UserParticipantRegistrationTable: FC<UserParticipantRegistrationTab
                                 player.status ?
                                     <TableRow key={player.player.id}>
                                         <TableCell colSpan={2}>
-                                            {player.player.name + " " + player.player.surname}
+                                            {handleFullName(player.player.name, player.player.surname)}
                                         </TableCell>
                                     </TableRow>
                                     :

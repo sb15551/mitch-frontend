@@ -11,6 +11,7 @@ import {
 } from "@mui/material"
 import {DataStat} from "../../dto/stat/DataStat";
 import {FC} from "react";
+import {handleFullName} from "../../common/Helpers";
 
 interface CardInfoProps {
     data: Array<DataStat>;
@@ -35,7 +36,7 @@ export const CardInfo: FC<CardInfoProps> = ({data, title}) => {
                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                 >
                                     <TableCell component="th" scope="row">
-                                        {row.name + " " + row.surname}
+                                        {handleFullName(row.name, row.surname)}
                                     </TableCell>
                                     <TableCell align="center">{row.countTop}</TableCell>
                                 </TableRow>)}
