@@ -55,11 +55,11 @@ export const UserParticipantRegistrationTable: FC<UserParticipantRegistrationTab
                     </TableHead>
                     <TableBody>
                         {tournament.participants
-                            .map((player) => (
+                            .map((player, index) => (
                                 player.status ?
                                     <TableRow key={player.player.id}>
                                         <TableCell colSpan={2}>
-                                            {handleFullName(player.player.name, player.player.surname)}
+                                            {(index + 1) + ". " + handleFullName(player.player.name, player.player.surname)}
                                         </TableCell>
                                     </TableRow>
                                     :
