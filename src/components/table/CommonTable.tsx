@@ -74,7 +74,7 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                                 <TableCell
                                     key={item.id}
                                     align={item.align}
-                                    style={{minWidth: item.minWidth}}
+                                    style={{minWidth: item.minWidth, maxWidth: item.maxWidth}}
                                 >{item.title}</TableCell>
                             )}
                         </TableRow>
@@ -88,7 +88,7 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                                               key={row.id}>
                                         {headers.map(item =>
                                             <TableCell
-                                                key={item.id}>{handleCell(item, row)}</TableCell>
+                                                key={item.id} align={item.align}>{handleCell(item, row)}</TableCell>
                                         )}
                                     </TableRow>
                                 );

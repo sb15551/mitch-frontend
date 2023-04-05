@@ -14,7 +14,7 @@ export type TournamentRowDto = {
     status: string;
 }
 
-export type TournamentHeaderType = "title" | "eventDate" | "status";
+export type TournamentHeaderType = "title" | "countParticipants" | "eventDate" | "status";
 
 export type TournamentDto = {
     id: number;
