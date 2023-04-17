@@ -1,21 +1,11 @@
-import {DataStat} from "./DataStat";
+import {MetricValue} from "./MetricValue";
 
 export class CommonStatDto  {
     countGamesPlayed: number;
-    firstPlaces: Array<DataStat>;
-    secondPlaces: Array<DataStat>;
-    thirdPlaces: Array<DataStat>;
-    christmasTops: Array<DataStat>;
-    bablTops: Array<DataStat>;
-    knockoutTops: Array<DataStat>;
+    metricsValues: Array<MetricValue>;
 
-    constructor(countGamesPlayed: number, firstPlaces: Array<DataStat>, secondPlaces: Array<DataStat>, thirdPlaces: Array<DataStat>, christmasTops: Array<DataStat>, bablTops: Array<DataStat>, knockoutTops: Array<DataStat>) {
+    constructor(countGamesPlayed: number, metricsValues: Array<MetricValue>) {
         this.countGamesPlayed = countGamesPlayed;
-        this.firstPlaces = firstPlaces;
-        this.secondPlaces = secondPlaces;
-        this.thirdPlaces = thirdPlaces;
-        this.christmasTops = christmasTops;
-        this.bablTops = bablTops;
-        this.knockoutTops = knockoutTops;
+        this.metricsValues = metricsValues;
     }
 }

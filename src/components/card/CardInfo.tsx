@@ -16,14 +16,14 @@ import {handleFullName} from "../../common/Helpers";
 interface CardInfoProps {
     data: Array<DataStat>;
     title: string;
+    onClickCard: () => void;
 }
 
-export const CardInfo: FC<CardInfoProps> = ({data, title}) => {
-
+export const CardInfo: FC<CardInfoProps> = ({data, title, onClickCard}) => {
     return (
-        <Card sx={{width: "280px", display: "inline-block",
+        <Card onClick={onClickCard} sx={{width: "280px", display: "inline-block",
             boxShadow: 10}}>
-            <CardContent>
+            <CardContent style={{cursor: "pointer"}}>
                 <Typography textAlign="center" variant="h6" component="div">
                     {title}
                 </Typography>
@@ -32,7 +32,7 @@ export const CardInfo: FC<CardInfoProps> = ({data, title}) => {
                         <TableBody>
                             {data.map(row =>
                                 <TableRow
-                                    key={row.playerId}
+                                    key={row.id}
                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                 >
                                     <TableCell component="th" scope="row">
