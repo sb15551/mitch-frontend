@@ -6,6 +6,7 @@ import {AuthResponse, PlayerDto, PlayersResponseDto} from "../dto/PlayerObjects"
 import {LocationDto, LocationsResponseDto} from "../dto/LocationObjects";
 import {TournamentDto, TournamentResponseDto} from "../dto/TournamentObjects";
 import {AdminConfigResponseDto} from "../dto/AdminConfigDto";
+import {MetricValue} from "../dto/stat/MetricValue";
 
 const instance = axios.create({
     baseURL: Config.url.API_BASE_URL,
@@ -146,6 +147,15 @@ export const OrderApi = {
             ApiEnum.GET_COMMON_STAT,
             {
                 headers: {"Authorization": "Bearer " + token}
+            });
+    },
+
+    getStatByCode(token: string, code: string) {
+        return instance.get<MetricValue>(
+            ApiEnum.GET_STAT,
+            {
+                headers: {"Authorization": "Bearer " + token},
+                params: {metricCode: code}
             });
     },
 }
