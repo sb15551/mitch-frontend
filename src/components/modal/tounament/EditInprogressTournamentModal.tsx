@@ -396,7 +396,7 @@ export const EditInprogressTournamentModal: FC<EditTournamentModalProps> = ({tou
                     </Box>
                     {/*TODO: move it to a component*/}
                     <Paper sx={{width: '100%', overflow: 'hidden'}}>
-                        <TableContainer sx={{maxHeight: 620}}>
+                        <TableContainer>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow

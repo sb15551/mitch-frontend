@@ -16,7 +16,7 @@ export const UserParticipantRegistrationTable: FC<UserParticipantRegistrationTab
                                                                                             }) => {
     return (
         <Paper sx={{width: '100%', overflow: 'hidden'}}>
-            <TableContainer sx={{maxHeight: 620}}>
+            <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow
