@@ -11,10 +11,23 @@ services:
     volumes:
       - /root/app/certs:/etc/nginx/certs
       - /root/app/conf:/etc/nginx/conf.d
+      - /root/app/certbot-etc:/etc/letsencrypt
+      - /root/app/certbot-var:/var/lib/letsencrypt
+      - /root/app/web-root:/usr/share/nginx/html
     networks:
       some_network:
         aliases:
           - frontend.local
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - /root/app/certbot-etc:/etc/letsencrypt
+      - /root/app/certbot-var:/var/lib/letsencrypt
+      - /root/app/web-root:/usr/share/nginx/html
+    depends_on:
+      - ui
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email stibium128@gmail.com --agree-tos --no-eff-email --staging -d mitch-club.ru
 networks:
   some_network:
     name: 'common_network'
