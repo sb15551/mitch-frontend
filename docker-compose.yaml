@@ -13,7 +13,6 @@ services:
       - /root/app/conf:/etc/nginx/conf.d
       - /root/app/certbot-etc:/etc/letsencrypt
       - /root/app/certbot-var:/var/lib/letsencrypt
-      - /root/app/web-root:/usr/share/nginx/html
     networks:
       some_network:
         aliases:
@@ -27,7 +26,7 @@ services:
       - /root/app/web-root:/usr/share/nginx/html
     depends_on:
       - ui
-    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email stibium128@gmail.com --agree-tos --no-eff-email --staging -d mitch-club.ru
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email stibium128@gmail.com --agree-tos --no-eff-email --force-renewal -d mitch-club.ru
 networks:
   some_network:
     name: 'common_network'
