@@ -27,6 +27,7 @@ import {UserParticipantRegistrationTable} from "../../tournament/participant/Use
 import {setNotification} from "../../../store/slices/notificationSlice";
 import {StatusCodeEnum} from "../../../common/StatusCodeEnum";
 import {UserParticipantInProgressTable} from "../../tournament/participant/UserParticipantInProgressTable";
+import {Link, To} from "react-router-dom";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -39,6 +40,7 @@ const Transition = forwardRef(function Transition(
 
 interface EditTournamentModalProps extends FullScreenModalProps {
     tournament: TournamentDto;
+    hrefTo?: To;
 }
 
 const DisableTextField = styled(TextField)({
@@ -47,7 +49,7 @@ const DisableTextField = styled(TextField)({
     },
 });
 
-export const UserTournamentModal: FC<EditTournamentModalProps> = ({tournament, handleClose, open}) => {
+export const UserTournamentModal: FC<EditTournamentModalProps> = ({tournament, handleClose, open, hrefTo}) => {
     const {id, token} = useAuth();
     const dispatch = useAppDispatch();
     const {statuses} = useAppSelector(state => state.adminConfig);
@@ -100,14 +102,25 @@ export const UserTournamentModal: FC<EditTournamentModalProps> = ({tournament, h
             >
                 <AppBar sx={{position: 'relative', background: "black"}}>
                     <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={() => handleClose(false)}
-                            aria-label="close"
-                        >
-                            <CloseIcon/>
-                        </IconButton>
+                        {hrefTo !== undefined ?
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={() => handleClose(false)}
+                                component={Link} to={hrefTo}
+                                aria-label="close"
+                            >
+                                <CloseIcon/>
+                            </IconButton>
+                            :
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={() => handleClose(false)}
+                                aria-label="close"
+                            >
+                                <CloseIcon/>
+                            </IconButton>}
                         <Typography sx={{ml: 2, flex: 1}} align={"center"} variant="h6" component="pre">
                             {tournament.title + "\n" + longRuFormatter.format(new Date(eventDate))}
                         </Typography>
