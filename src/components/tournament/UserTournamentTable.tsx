@@ -16,7 +16,6 @@ export const UserTournamentTable = () => {
                        paddingTop: "20px"
                    }}>
             <CommonTable
-                key={Math.random()}
                 headers={tournamentHeadersTable}
                 orderApiFunction={OrderApi.getTournaments}
                 handleOpenModal={handleClickOpenPage}/>
