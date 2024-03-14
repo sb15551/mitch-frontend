@@ -7,14 +7,16 @@ import {AxiosResponse} from "axios";
 import {setObjectError} from "../../store/slices/errorSlice";
 import {useAppDispatch} from "../../hooks/redux-hooks";
 import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
+import {Link, To} from "react-router-dom";
 
 interface CommonTableProps {
     headers: Array<any>;
     orderApiFunction: (token: string, page: number, rowsPerPage: number) => Promise<AxiosResponse>;
     handleOpenModal: (playerId: number) => void;
+    hrefTo?: To;
 }
 
-export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, handleOpenModal}) => {
+export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, handleOpenModal, hrefTo}) => {
     const {token} = useAuth();
     const dispatch = useAppDispatch();
 
@@ -53,7 +55,7 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
     };
 
     const handleCell = (item: any, row: any) => {
-        var cell: string = "";
+        var cell: string;
         if (item.id === "role") {
             cell = row[item.id].name;
         } else {
@@ -64,6 +66,13 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
             }
         }
         return cell;
+    };
+
+    let tableCell = (row: any) => {
+        return headers.map(item =>
+            <TableCell
+                key={item.id} align={item.align}>{handleCell(item, row)}</TableCell>
+        )
     };
 
     return (
@@ -91,14 +100,18 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
                         {rows
                             .map(row => {
                                 return (
-                                    <TableRow style={{cursor: "pointer"}} hover role="checkbox" tabIndex={-1}
-                                              onClick={() => handleOpenModal(row.id)}
-                                              key={row.id}>
-                                        {headers.map(item =>
-                                            <TableCell
-                                                key={item.id} align={item.align}>{handleCell(item, row)}</TableCell>
-                                        )}
-                                    </TableRow>
+                                    hrefTo !== undefined ?
+                                        <TableRow style={{cursor: "pointer"}} hover role="checkbox" tabIndex={-1}
+                                                  component={Link} to={hrefTo + "/" + row.id}
+                                                  key={row.id}>
+                                            {tableCell(row)}
+                                        </TableRow>
+                                        :
+                                        <TableRow style={{cursor: "pointer"}} hover role="checkbox" tabIndex={-1}
+                                                  onClick={() => handleOpenModal(row.id)}
+                                                  key={row.id}>
+                                            {tableCell(row)}
+                                        </TableRow>
                                 );
                             })}
                     </TableBody>
