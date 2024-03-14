@@ -35,7 +35,6 @@ const Tournaments = () => {
     const handleClose = (isReset: boolean) => {
         setOpen(false);
         setTournament(defaultTournament);
-        window.location.assign(LinkEnum.TOURNAMENTS);
     };
 
     return (
@@ -47,7 +46,8 @@ const Tournaments = () => {
                 <UserTournamentModal
                     tournament={tournament}
                     handleClose={handleClose}
-                    open={open}/>)}
+                    open={open}
+                    hrefTo={LinkEnum.TOURNAMENTS}/>)}
         </Container>
     );
 }
