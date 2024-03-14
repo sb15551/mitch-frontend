@@ -6,6 +6,7 @@ import {useAuth} from "../../hooks/use-auth";
 import {AxiosResponse} from "axios";
 import {setObjectError} from "../../store/slices/errorSlice";
 import {useAppDispatch} from "../../hooks/redux-hooks";
+import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 
 interface CommonTableProps {
     headers: Array<any>;
@@ -16,8 +17,11 @@ interface CommonTableProps {
 export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, handleOpenModal}) => {
     const {token} = useAuth();
     const dispatch = useAppDispatch();
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(RowsPerPageEnum.TEN);
+
+    var currentPage: string | null = localStorage.getItem(LocalStorageKeyEnum.PAGE);
+    var currentRowsPerPage: string | null = localStorage.getItem(LocalStorageKeyEnum.ROWS_PER_PAGE);
+    const [page, setPage] = useState(currentPage === null ? 0 : Number(currentPage));
+    const [rowsPerPage, setRowsPerPage] = useState(currentRowsPerPage === null ? 0 : Number(currentRowsPerPage));
 
     const [rows, setRows] = useState(Array<any>);
     const [total, setTotal] = useState(0);
@@ -37,11 +41,15 @@ export const CommonTable: FC<CommonTableProps> = ({headers, orderApiFunction, ha
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
+        localStorage.setItem(LocalStorageKeyEnum.PAGE, newPage.toString());
+        localStorage.setItem(LocalStorageKeyEnum.ROWS_PER_PAGE, rowsPerPage.toString());
     };
 
     const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
+        localStorage.setItem(LocalStorageKeyEnum.PAGE, "0");
+        localStorage.setItem(LocalStorageKeyEnum.ROWS_PER_PAGE, String(+event.target.value));
     };
 
     const handleCell = (item: any, row: any) => {

@@ -19,6 +19,7 @@ import {setAdminConfig, setLocations} from "./store/slices/adminConfigSlice";
 import {setObjectError} from "./store/slices/errorSlice";
 import {handleLogError} from "./common/Helpers";
 import "./App.css";
+import Tournament from "./pages/Tournament";
 
 declare module '@mui/material/styles' {
     interface Palette {
@@ -101,6 +102,7 @@ const App = () => {
                     <Route element={<ProtectedRoutes/>}>
                         <Route path={LinkEnum.MAIN} element={<Main/>}/>
                         <Route path={LinkEnum.TOURNAMENTS} element={<Tournaments/>}/>
+                        <Route path={LinkEnum.TOURNAMENTS + "/:tournamentId"} element={<Tournament/>}/>
                         <Route path={LinkEnum.STAT} element={<Stat/>}/>
                         <Route path={LinkEnum.SETTINGS} element={<Settings/>}/>
                         <Route element={<AdminRoutes/>}>

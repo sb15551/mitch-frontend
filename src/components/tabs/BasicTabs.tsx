@@ -5,6 +5,8 @@ import {PlayersTable} from "../player/admin/PlayersTable";
 import {LocationTable} from "../location/LocationTable";
 import "./BasicTabs.css"
 import {TournamentTable} from "../tournament/TournamentTable";
+import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
+import {RowsPerPageEnum} from "../../common/RowsPerPageEnum";
 
 function a11yProps(index: number) {
     return {
@@ -18,6 +20,8 @@ export const BasicTabs = () => {
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue);
+        localStorage.setItem(LocalStorageKeyEnum.PAGE, "0");
+        localStorage.setItem(LocalStorageKeyEnum.ROWS_PER_PAGE, String(RowsPerPageEnum.TEN));
     };
 
     return (
