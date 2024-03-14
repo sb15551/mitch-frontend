@@ -6,9 +6,6 @@ import {Container} from "@mui/material";
 import {LinkEnum} from "../../common/LinkEnum";
 
 export const UserTournamentTable = () => {
-    const handleClickOpenPage = (tournamentId: number) => {
-        window.location.assign(LinkEnum.TOURNAMENTS + "/" + tournamentId);
-    };
 
     return (
         <Container maxWidth="lg"
@@ -18,7 +15,8 @@ export const UserTournamentTable = () => {
             <CommonTable
                 headers={tournamentHeadersTable}
                 orderApiFunction={OrderApi.getTournaments}
-                handleOpenModal={handleClickOpenPage}/>
+                handleOpenModal={() => {}}
+                hrefTo={LinkEnum.TOURNAMENTS}/>
         </Container>
     )
 }
