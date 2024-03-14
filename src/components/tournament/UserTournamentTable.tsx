@@ -1,38 +1,13 @@
 import {OrderApi} from "../../common/OrderApi";
 import {CommonTable} from "../table/CommonTable";
-import React, {useState} from "react";
+import React from "react";
 import {tournamentHeadersTable} from "./TournamentHeadersTable";
-import {useAuth} from "../../hooks/use-auth";
-import {useAppDispatch} from "../../hooks/redux-hooks";
-import {setObjectError} from "../../store/slices/errorSlice";
-import {handleLogError} from "../../common/Helpers";
-import {defaultTournament} from "../../dto/TournamentObjects";
-import {UserTournamentModal} from "../modal/tounament/UserTournamentModal";
 import {Container} from "@mui/material";
+import {LinkEnum} from "../../common/LinkEnum";
 
 export const UserTournamentTable = () => {
-    const {token} = useAuth();
-    const dispatch = useAppDispatch();
-    const [open, setOpen] = useState(false);
-    const [tournament, setTournament] = useState(defaultTournament);
-    const [resetTable, setResetTable] = useState(0);
-    const handleClickOpen = (tournamentId: number) => {
-        OrderApi.getTournament(token as string, tournamentId)
-            .then(response => {
-                setTournament(response.data);
-                setOpen(true);
-            })
-            .catch(error => {
-                dispatch(setObjectError(handleLogError(error)));
-            });
-    };
-
-    const handleClose = (isReset: boolean) => {
-        setOpen(false);
-        setTournament(defaultTournament);
-        if (isReset) {
-            setTimeout(() => setResetTable(Math.random()), 250);
-        }
+    const handleClickOpenPage = (tournamentId: number) => {
+        window.location.assign(LinkEnum.TOURNAMENTS + "/" + tournamentId);
     };
 
     return (
@@ -41,15 +16,10 @@ export const UserTournamentTable = () => {
                        paddingTop: "20px"
                    }}>
             <CommonTable
-                key={resetTable}
+                key={Math.random()}
                 headers={tournamentHeadersTable}
                 orderApiFunction={OrderApi.getTournaments}
-                handleOpenModal={handleClickOpen}/>
-            {tournament.id !== 0 && (
-                <UserTournamentModal
-                    tournament={tournament}
-                    handleClose={handleClose}
-                    open={open}/>)}
+                handleOpenModal={handleClickOpenPage}/>
         </Container>
     )
 }

@@ -10,6 +10,7 @@ import {LocalStorageKeyEnum} from "../../common/LocalStorageKeyEnum";
 import ItemMenu from "./ItemMenu";
 import {removeAdminConfig} from "../../store/slices/adminConfigSlice";
 import './TopMenu.css';
+import {RowsPerPageEnum} from "../../common/RowsPerPageEnum";
 
 const TopMenu = () => {
     var currentURI = window.location.pathname;
@@ -19,6 +20,8 @@ const TopMenu = () => {
 
     const logout = () => {
         localStorage.removeItem(LocalStorageKeyEnum.USER);
+        localStorage.removeItem(LocalStorageKeyEnum.PAGE);
+        localStorage.removeItem(LocalStorageKeyEnum.ROWS_PER_PAGE);
         dispatch(removeUser());
         dispatch(removeAdminConfig())
         window.location.reload();
@@ -26,6 +29,8 @@ const TopMenu = () => {
 
     const setActivePopupMenu = () => {
         setPopupMenu(!popupMenu);
+        localStorage.setItem(LocalStorageKeyEnum.PAGE, "0");
+        localStorage.setItem(LocalStorageKeyEnum.ROWS_PER_PAGE, String(RowsPerPageEnum.TEN));
     }
 
     return (

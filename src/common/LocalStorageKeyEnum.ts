@@ -1,4 +1,6 @@
 export enum LocalStorageKeyEnum {
     USER = "user",
-    LOGIN = "login"
+    LOGIN = "login",
+    PAGE = "page",
+    ROWS_PER_PAGE = "rowsPerPage"
 }
