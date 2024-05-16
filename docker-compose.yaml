@@ -9,10 +9,10 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - /root/app/certs:/etc/nginx/certs
-      - /root/app/conf:/etc/nginx/conf.d
-      - /root/app/certbot-etc:/etc/letsencrypt
-      - /root/app/certbot-var:/var/lib/letsencrypt
+      - /mitch/app/certs:/etc/nginx/certs
+      - /mitch/app/conf:/etc/nginx/conf.d
+      - /mitch/app/certbot-etc:/etc/letsencrypt
+      - /mitch/app/certbot-var:/var/lib/letsencrypt
     networks:
       some_network:
         aliases:
@@ -21,9 +21,9 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - /root/app/certbot-etc:/etc/letsencrypt
-      - /root/app/certbot-var:/var/lib/letsencrypt
-      - /root/app/web-root:/usr/share/nginx/html
+      - /mitch/app/certbot-etc:/etc/letsencrypt
+      - /mitch/app/certbot-var:/var/lib/letsencrypt
+      - /mitch/app/web-root:/usr/share/nginx/html
     depends_on:
       - ui
     command: certonly --webroot --webroot-path=/usr/share/nginx/html --email stibium128@gmail.com --agree-tos --no-eff-email --force-renewal -d mitch-club.ru
