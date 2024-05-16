@@ -43,7 +43,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_SERVER_HOST }}
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
-          key: ${{ secrets.DEPLOY_SERVER_KEY }}
+          password: ${{ secrets.DEPLOY_SERVER_USERNAME_PASSWORD }}
           commands: |
             docker-compose -f /mitch/app/frontend/docker-compose.yaml down
             docker image rm sb15551/mitch-frontend
