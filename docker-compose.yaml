@@ -11,8 +11,8 @@ services:
     volumes:
       - /mitch/app/certs:/etc/nginx/certs
       - /mitch/app/conf:/etc/nginx/conf.d`
-      - /mitch/app/certbot-etc:/etc/letsencrypt
-      - /mitch/app/certbot-var:/var/lib/letsencrypt
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
     networks:
       some_network:
         aliases:
@@ -21,13 +21,15 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - /mitch/app/certbot-etc:/etc/letsencrypt
-      - /mitch/app/certbot-var:/var/lib/letsencrypt
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
       - web-root:/usr/share/nginx/html
     depends_on:
       - ui
     command: certonly --webroot --webroot-path=/usr/share/nginx/html --email stibium128@gmail.com --agree-tos --no-eff-email --force-renewal -d mitch-club.ru
 volumes:
+  certbot-etc:
+  certbot-var:
   web-root:
     driver: local
     driver_opts:
