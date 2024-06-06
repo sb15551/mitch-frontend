@@ -10,9 +10,10 @@ services:
       - 443:443
     volumes:
       - /mitch/app/certs:/etc/nginx/certs
-      - /mitch/app/conf:/etc/nginx/conf.d`
+      - /mitch/app/conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
+      - web-root:/usr/share/nginx/html
     networks:
       some_network:
         aliases:
