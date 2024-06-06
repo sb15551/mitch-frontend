@@ -10,7 +10,7 @@ services:
       - 443:443
     volumes:
       - /mitch/app/certs:/etc/nginx/certs
-      - /mitch/app/conf:/etc/nginx/conf.d
+      - /mitch/app/conf:/etc/nginx/conf.d`
       - /mitch/app/certbot-etc:/etc/letsencrypt
       - /mitch/app/certbot-var:/var/lib/letsencrypt
     networks:
@@ -23,10 +23,17 @@ services:
     volumes:
       - /mitch/app/certbot-etc:/etc/letsencrypt
       - /mitch/app/certbot-var:/var/lib/letsencrypt
-      - /mitch/app/web-root:/usr/share/nginx/html
+      - web-root:/usr/share/nginx/html
     depends_on:
       - ui
     command: certonly --webroot --webroot-path=/usr/share/nginx/html --email stibium128@gmail.com --agree-tos --no-eff-email --force-renewal -d mitch-club.ru
+volumes:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mitch/app/web-root/
+      o: bind
 networks:
   some_network:
     name: 'common_network'
